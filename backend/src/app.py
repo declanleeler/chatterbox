@@ -66,7 +66,6 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
 
     # Extract the access token
     token_data = token_response.json()
-    print(token_data)
     access_token = token_data["access_token"]
     token_type = token_data["token_type"]
 

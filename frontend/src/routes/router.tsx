@@ -8,7 +8,6 @@ import Login from '../components/Login';
 
 const AppRouter = () => {
   const { user } = useAuth();
-  console.log(user);
 
   const router = createBrowserRouter([
     {
@@ -17,14 +16,14 @@ const AppRouter = () => {
     },
     {
       path: '/auth-redirect',
-      element: <AuthRedirect />, // GitHub OAuth redirect logic
+      element: <AuthRedirect />,
     },
     {
       path: '/oauth/callback',
       element: <OAuthCallback />,
     },
     {
-      element: <ProtectedRoute />, // Protect routes after login
+      element: <ProtectedRoute />,
       children: [
         {
           path: '/home',
