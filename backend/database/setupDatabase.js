@@ -41,28 +41,27 @@ db.createCollection("conversations", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["googleId", "conversationId", "createdOn"],
+      required: ["_id", "googleId", "createdOn"],
       properties: {
+        _id: {
+          bsonType: "objectId",
+          description: "Must be a valid ObjectId and is required",
+        },
         googleId: {
           bsonType: "string",
-          description:
-            "must be a string and is required, foreign key to 'User' collection",
-        },
-        conversationId: {
-          bsonType: "string",
-          description: "must be a string and is required",
+          description: "Must be a valid string and is required",
         },
         status: {
           bsonType: "string",
-          description: "optional string for conversation status",
+          description: "Optional field to track the status",
         },
         createdOn: {
           bsonType: "date",
-          description: "timestamp when the conversation was created",
+          description: "Must be a valid date and is required",
         },
         updatedOn: {
           bsonType: "date",
-          description: "timestamp when the conversation was last updated",
+          description: "Optional field for the last updated timestamp",
         },
       },
     },
@@ -71,7 +70,6 @@ db.createCollection("conversations", {
 
 // Create indices for Conversations Collection
 db.conversations.createIndex({ googleId: 1 });
-db.conversations.createIndex({ conversationId: 1 });
 db.conversations.createIndex({ status: 1 });
 db.conversations.createIndex({ createdOn: 1 });
 
@@ -83,9 +81,9 @@ db.createCollection("messages", {
       required: ["conversationId", "senderId", "messageText", "createdOn"],
       properties: {
         conversationId: {
-          bsonType: "string",
+          bsonType: "objectId",
           description:
-            "must be a string and is required, foreign key to 'Conversation' collection",
+            "Must reference a valid Conversation._id and is required",
         },
         senderId: {
           bsonType: "string",
