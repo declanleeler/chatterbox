@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthProvider';
 const ProtectedRoute: FC = () => {
   const { authToken } = useAuth();
 
-  return authToken ? <Outlet /> : <Navigate to="/login" replace />;
+  return authToken ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default ProtectedRoute;

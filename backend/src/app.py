@@ -29,6 +29,17 @@ async def root():
     return {"message": "Hello, World!"}
 
 
+used_codes = set()  # In-memory set to track used codes
+
+
+def code_already_used(code: str) -> bool:
+    return code in used_codes
+
+
+def mark_code_as_used(code: str):
+    used_codes.add(code)
+
+
 @app.get("/test_data/")
 async def get_test_data():
     collection = mongo.db["test"]
@@ -49,6 +60,10 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
     if not request.code:
         raise HTTPException(status_code=422, detail="Code parameter is missing")
 
+    # Check if the code was already used (you can store this in session or DB)
+    if code_already_used(request.code):
+        raise HTTPException(status_code=400, detail="Authorization code already used")
+
     # Exchange the code for an access token
     token_response = requests.post(
         "https://github.com/login/oauth/access_token",
@@ -59,6 +74,8 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
             "code": request.code,
         },
     )
+    print(f"Token Response: {token_response.json()}")
+
     if token_response.status_code != 200:
         raise HTTPException(
             status_code=400, detail="Error fetching access token from GitHub."
@@ -66,6 +83,10 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
 
     # Extract the access token
     token_data = token_response.json()
+    if "access_token" not in token_data:
+        raise HTTPException(
+            status_code=400, detail="Access token not found in response"
+        )
     access_token = token_data["access_token"]
     token_type = token_data["token_type"]
 
@@ -86,6 +107,7 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
     # Filter the dictionary to keep only the specified keys
     filtered_user = {key: user_data[key] for key in keys_to_keep if key in user_data}
 
+    mark_code_as_used(request.code)
     return {"user": filtered_user, "token": access_token, "tokenType": token_type}
 
 
