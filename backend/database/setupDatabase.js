@@ -61,12 +61,12 @@ db.createCollection("messages", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["conversationId", "userId", "messageText", "createdOn"],
+      required: ["chatId", "userId", "messageText", "createdOn"],
       properties: {
-        conversationId: {
-          bsonType: "objectId",
+        chatId: {
+          bsonType: "string",
           description:
-            "Must reference a valid Conversation._id and is required",
+            "must be a string and is required, foreign key to 'User' collection or 'system'",
         },
         userId: {
           bsonType: "string",
@@ -78,7 +78,7 @@ db.createCollection("messages", {
           description: "must be a string and is required",
         },
         createdOn: {
-          bsonType: "date",
+          bsonType: "long",
           description: "timestamp when the message was created",
         },
       },

@@ -5,35 +5,28 @@
 ### Schema Fields
 
 - **\_id**: MongoDB ObjectId (default)
-- **email**: String, required
-- **googleId**: String, required
-- **name**: String, optional
-- **createdOn**: Date, required
-- **updatedOn**: Date, optional
+- **userId**: Int, required
+- **login**: String, required
 
 ### Indices
 
 - **\_id**: Default index
-- **email**: Ensures unique email addresses for each user and enables efficient lookups during authentication or administrative queries.
-- **googleId**: Ensures uniqueness of Google SSO identifiers, enabling fast lookups and user retrieval during SSO-based authentication.
+- **userId**:
+- **login**:
 
-## Conversation Collection
+## Chat Collection
 
 ### Schema Fields
 
 - **\_id**: MongoDB ObjectId (default)
-- **googleId**: String, required (foreign key to `User` collection)
-- **conversationId**: String, required
-- **status**: String, optional
-- **createdOn**: Date, required
-- **updatedOn**: Date, optional
+- **userId**: Int, required (foreign key to `User` collection)
+- **createdOn**: Long, required
+- **name**: String, required
 
 ### Indices
 
 - **\_id**: Default index
-- **googleId**: Index to fetch conversations by user
-- **conversationId**: Index for efficient session retrieval
-- **status**: Index to filter conversations by status
+- **userId**: Index to fetch conversations by user
 - **createdOn**: Index for sorting or filtering by creation date
 
 ## Message Collection
@@ -41,13 +34,13 @@
 ### Schema Fields
 
 - **\_id**: MongoDB ObjectId (default)
-- **conversationId**: String, required (foreign key to `Conversation` collection)
-- **userId**: String, required (foreign key to `User` collection or "system" for bot messages)
+- **chatId**: String, required (foreign key to `Conversation` collection)
+- **userId**: Int, required (foreign key to `User` collection or "system" for bot messages)
 - **messageText**: String, required
-- **createdOn**: Date, required
+- **createdOn**: Long, required
 
 ### Indices
 
 - **\_id**: Default index
-- **conversationId**: Index to fetch all messages within a conversation
+- **chatId**: Index to fetch all messages within a conversation
 - **createdOn**: Index to sort or filter messages by creation date (e.g., chat history)

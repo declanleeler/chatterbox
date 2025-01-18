@@ -1,7 +1,10 @@
 import time
 from fastapi import APIRouter, HTTPException
 
-from src.services.messages_management_service import get_messages_by_chatId
+from src.services.messages_management_service import (
+    get_messages_by_chatId,
+    save_message,
+)
 from src.services.chat_management_service import get_user_chats, save_chat
 
 from .models.models import (
@@ -64,18 +67,22 @@ async def create_chat(request: CreateChatRequest):
 @router.post("/message")
 async def handle_message(request: MessageRequest):
     user_message = request.message
-    if not user_message:
-        raise HTTPException(status_code=400, detail="Message cannot be empty")
-    time.sleep(3)
+
+    # Save user message
+    await save_message(user_message)
+
+    # TODO do LLM here
     robot_response = f"Robot answer to: {user_message.messageText}"
+    time.sleep(3)
     robot_message = Message(
-        conversationId=request.message.conversationId,
+        chatId=request.message.chatId,
         userId=10101010,
         messageText=robot_response,
         createdOn=int(time.time() * 1000),
     )
 
-    # TODO save to db here
+    # Save LLM message
+    await save_message(robot_message)
 
     return {"message": robot_message}
 

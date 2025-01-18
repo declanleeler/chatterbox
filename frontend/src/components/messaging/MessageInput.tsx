@@ -7,12 +7,14 @@ import { useAuth } from '../../contexts/AuthProvider';
 import { DateTime } from 'luxon';
 
 interface MessageInputProps {
+  selectedChat: string;
   input: string | null;
   setInput: React.Dispatch<React.SetStateAction<string | null>>;
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
 const MessageInput: FC<MessageInputProps> = ({
+  selectedChat,
   input,
   setInput,
   setMessages,
@@ -31,7 +33,7 @@ const MessageInput: FC<MessageInputProps> = ({
   const handleSendMessage = () => {
     if (input) {
       const userMessage: Message = {
-        conversationId: '1',
+        chatId: selectedChat,
         userId: user!.id,
         messageText: input,
         createdOn: DateTime.now().toMillis(),

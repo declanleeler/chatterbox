@@ -29,7 +29,7 @@ class Chat(BaseModel):
 
 
 class Message(BaseModel):
-    conversationId: str
+    chatId: str
     userId: int
     messageText: str
     createdOn: int

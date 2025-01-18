@@ -75,6 +75,7 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
           input={input}
           setInput={setInput}
           setMessages={setMessages}
+          selectedChat={selectedChat}
         />
       </Grid2>
     </Grid2>
