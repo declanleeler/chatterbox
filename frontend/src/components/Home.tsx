@@ -15,6 +15,10 @@ const Home: FC = () => {
       flexDirection={'row'}
       sx={{
         backgroundColor: theme.palette.background.default,
+        border: 'solid white',
+        maxHeight: '100vh',
+        overflowY: 'auto',
+        overflowX: 'hidden',
       }}
     >
       <Grid2 id="left-panel" size={3}>
@@ -27,7 +31,7 @@ const Home: FC = () => {
         id="right-panel"
         size={9}
         flexDirection={'column'}
-        sx={{ display: 'flex' }}
+        sx={{ display: 'flex', border: 'solid blue' }}
       >
         <TopBar />
         <Messaging selectedChat={selectedChat} />

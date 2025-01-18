@@ -61,12 +61,9 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
       {/* CreateChatButton stays fixed at the top */}
       <CreateChatButton />
 
-      {/* Scrollable area for the chat list */}
       <div
         style={{
           flexGrow: 1,
-          overflowY: 'auto', // Enable vertical scrolling
-          overflowX: 'hidden', // Disable horizontal scrolling
         }}
       >
         {chatData.chats.map((chat) => (

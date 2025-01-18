@@ -51,12 +51,17 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
         justifyContent: 'space-between',
         height: '100%',
         paddingX: 5,
+        border: 'solid red',
       }}
     >
       <Grid2
         id="convo"
         sx={{
           width: '100%',
+          maxHeight: '50%',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          border: 'solid green',
         }}
       >
         <MessageList messages={messages} />

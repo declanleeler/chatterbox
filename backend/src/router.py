@@ -1,6 +1,7 @@
 import time
 from fastapi import APIRouter, HTTPException
 
+from src.services.gemini_api import generate
 from src.services.messages_management_service import (
     get_messages_by_chatId,
     save_message,
@@ -71,20 +72,19 @@ async def handle_message(request: MessageRequest):
     # Save user message
     await save_message(user_message)
 
-    # TODO do LLM here
-    robot_response = f"Robot answer to: {user_message.messageText}"
-    time.sleep(3)
-    robot_message = Message(
+    llm_response_text = generate(user_message.messageText)
+
+    llm_message = Message(
         chatId=request.message.chatId,
         userId=10101010,
-        messageText=robot_response,
+        messageText=llm_response_text,
         createdOn=int(time.time() * 1000),
     )
 
     # Save LLM message
-    await save_message(robot_message)
+    await save_message(llm_message)
 
-    return {"message": robot_message}
+    return {"message": llm_message}
 
 
 @router.get("/chat/{chat_id}")

@@ -46,7 +46,7 @@ const CreateChatButton: FC = () => {
       }}
     >
       <Typography variant="h6" sx={{ ml: 2 }}>
-        Chatterbox
+        CHATTERBOX
       </Typography>
       <IconButton
         size="large"
