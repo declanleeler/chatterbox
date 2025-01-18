@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react';
 import { createTheme, ThemeProvider, PaletteMode } from '@mui/material';
+import { getTheme } from '../styles/theme';
 
 interface CustomThemeProviderProps {
   children: ReactNode;
@@ -41,28 +42,13 @@ const CustomThemeProvider: FC<CustomThemeProviderProps> = ({ children }) => {
   }, [mode]);
 
   // Create the theme based on the current mode
-  const theme = createTheme({
-    palette: {
-      mode,
-    },
-    components: {
-      MuiIconButton: {
-        styleOverrides: {
-          root: {
-            '&:focus, &:focus-visible': {
-              outline: 'none',
-            },
-          },
-        },
-      },
-    },
-  });
+  const theme = getTheme(mode);
 
   const value = { mode, setMode };
 
   return (
     <CustomThemeContext.Provider value={value}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </CustomThemeContext.Provider>
   );
 };

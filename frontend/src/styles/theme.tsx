@@ -1,73 +1,50 @@
-// import { createTheme } from '@mui/material/styles';
+// theme.ts
+import { createTheme } from '@mui/material/styles';
 
-// const chatterboxTheme = createTheme({
-//   palette: {
-//     primary: {
-//       main: '#090c9b',
-//     },
-//     secondary: {
-//       main: '#3066be',
-//       contrastText: '#ffffff',
-//     },
-//     background: {
-//       default: '#ffffff',
-//       paper: '#ffffff',
-//     },
-//     text: {
-//       primary: '#000000',
-//       secondary: '#838b91',
-//     },
-//   },
-//   typography: {
-//     fontFamily: '"Helvetica Neue", Arial, sans-serif',
-//     allVariants: {
-//       color: '#000000',
-//     },
-//     h1: {
-//       fontSize: '3rem',
-//       fontWeight: 300,
-//     },
-//     h2: {
-//       fontSize: '2rem',
-//       fontWeight: 200,
-//     },
-//     body1: {
-//       fontSize: '1rem',
-//       fontWeight: 300,
-//       textAlign: 'justify',
-//       lineHeight: 1.8,
-//     },
-//   },
-//   components: {
-//     MuiCard: {
-//       styleOverrides: {
-//         root: {
-//           boxShadow: 'none',
-//           '&:hover': {
-//             boxShadow: 'none',
-//           },
-//         },
-//       },
-//     },
-//     MuiAppBar: {
-//       styleOverrides: {
-//         root: {
-//           backgroundColor: '#ffffff',
-//           boxShadow: 'none',
-//           borderBottom: '1px solid #ddd',
-//         },
-//       },
-//     },
-//     MuiButton: {
-//       styleOverrides: {
-//         root: {
-//           '&:focus': {
-//             outline: 'none',
-//           },
-//         },
-//       },
-//     },
-//   },
-// });
-
-// export default chatterboxTheme;
+export const getTheme = (mode: 'light' | 'dark') => {
+  return createTheme({
+    palette: {
+      mode,
+    },
+    components: {
+      MuiIconButton: {
+        styleOverrides: {
+          root: {
+            '&:focus, &:focus-visible': {
+              outline: 'none',
+            },
+          },
+        },
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiFilledInput-root': {
+              borderRadius: '20px', // Rounded corners
+              boxShadow: 'none', // No shadow
+              '&:hover': {
+                borderColor: '#aaa', // Optional hover effect
+              },
+              '&.Mui-focused': {
+                borderColor: '#666', // Optional focus effect
+              },
+              // Remove the bottom border line
+              '&.MuiFilledInput-underline:before': {
+                borderBottom: 'none', // Remove the default bottom border
+              },
+              // Add more vertical padding inside the text field
+              paddingTop: '12px', // Adjust padding as needed
+              paddingBottom: '12px', // Adjust padding as needed
+            },
+            '& .MuiInputLabel-root': {
+              top: '-5px', // Adjust label position
+            },
+            '& .MuiInputLabel-shrink': {
+              transform: 'translate(12px, -8px) scale(0.75)', // Adjust label shrink position
+            },
+          },
+        },
+      },
+    },
+  });
+};

@@ -1,4 +1,3 @@
-import NightlightIcon from '@mui/icons-material/Nightlight';
 import { Avatar } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -54,28 +53,26 @@ const TopBar: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}
-      >
-        <Toolbar>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'flex-end', flexGrow: 1 }}
+      <AppBar position="static">
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            paddingRight: 2,
+          }}
+        >
+          <ToggleLightModeButton />
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
           >
-            <ToggleLightModeButton />
-
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <Avatar src={user?.avatar_url} alt={user?.login || 'User'} />
-            </IconButton>
-          </Box>
+            <Avatar src={user?.avatar_url} alt={user?.login || 'User'} />
+          </IconButton>
         </Toolbar>
       </AppBar>
       {renderMenu}

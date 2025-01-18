@@ -41,7 +41,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
     }
-  }, []);
+  }, [authToken]);
 
   const setAuth = (user: string, token: string) => {
     // Set the token
