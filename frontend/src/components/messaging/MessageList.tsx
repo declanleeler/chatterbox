@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Message } from '../../interfaces/Message';
-import { List, ListItem, ListItemText, Paper } from '@mui/material';
+import { List, ListItem, ListItemText, Paper, Typography } from '@mui/material';
 
 interface MessageListProps {
   messages: Message[];
@@ -9,13 +9,22 @@ interface MessageListProps {
 const MessageList: FC<MessageListProps> = ({ messages }) => {
   return (
     <List>
-      {messages.map((message) => (
+      {messages.length === 0 ? (
         <ListItem>
-          <Paper>
-            <ListItemText>{message.messageText}</ListItemText>
+          <Paper sx={{ padding: 2, textAlign: 'center' }}>
+            <Typography>No messages yet. Start the conversation!</Typography>
           </Paper>
         </ListItem>
-      ))}
+      ) : (
+        messages.map((message) => (
+          <ListItem key={message.createdOn}>
+            {/* Ensure a key is provided for each item */}
+            <Paper sx={{ padding: 2 }}>
+              <ListItemText>{message.messageText}</ListItemText>
+            </Paper>
+          </ListItem>
+        ))
+      )}
     </List>
   );
 };

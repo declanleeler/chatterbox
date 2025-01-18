@@ -1,11 +1,12 @@
 import { Grid2, useTheme } from '@mui/material';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import HistoryPanel from './HistoryPanel';
 import TopBar from './Topbar';
 import Messaging from './messaging/Messaging';
 
 const Home: FC = () => {
   const theme = useTheme();
+  const [selectedChat, setSelectedChat] = useState<string | null>(null);
 
   return (
     <Grid2
@@ -17,7 +18,7 @@ const Home: FC = () => {
       }}
     >
       <Grid2 id="left-panel" size={3}>
-        <HistoryPanel />
+        <HistoryPanel setSelectedChat={setSelectedChat} />
       </Grid2>
       <Grid2
         id="right-panel"
@@ -26,7 +27,7 @@ const Home: FC = () => {
         sx={{ display: 'flex' }}
       >
         <TopBar />
-        <Messaging />
+        <Messaging selectedChat={selectedChat} />
       </Grid2>
     </Grid2>
   );

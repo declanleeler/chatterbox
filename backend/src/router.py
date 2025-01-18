@@ -1,6 +1,7 @@
 import time
 from fastapi import APIRouter, HTTPException
 
+from src.services.messages_management_service import get_messages_by_chatId
 from src.services.chat_management_service import get_user_chats, save_chat
 
 from .models.models import (
@@ -77,3 +78,17 @@ async def handle_message(request: MessageRequest):
     # TODO save to db here
 
     return {"message": robot_message}
+
+
+@router.get("/chat/{chat_id}")
+async def get_chat_messages(chat_id: str):
+    """
+    Retrieve a chat by its ID.
+
+    :param chat_id: The ID of the chat to retrieve.
+    :return: The Chat instance if found, else 404.
+    """
+    messages = await get_messages_by_chatId(chat_id)
+    if messages is None:
+        raise HTTPException(status_code=404, detail="Chat not found")
+    return {"messages": messages}

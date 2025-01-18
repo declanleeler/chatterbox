@@ -6,7 +6,11 @@ import { useQuery } from '@tanstack/react-query';
 import fetchUserChats from '../actions/fetchUserChats';
 import { useAuth } from '../contexts/AuthProvider';
 
-const HistoryPanel: FC = () => {
+interface HistoryPanelProps {
+  setSelectedChat: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const HistoryPanel: FC<HistoryPanelProps> = ({ setSelectedChat }) => {
   const { user } = useAuth();
   const { data: chatData, isLoading } = useQuery({
     queryKey: ['userChats'],
@@ -59,7 +63,11 @@ const HistoryPanel: FC = () => {
         }}
       >
         {chatData.chats.map((chat) => (
-          <ChatListItem key={chat.createdOn} chat={chat} />
+          <ChatListItem
+            key={chat._id}
+            chat={chat}
+            setSelectedChat={setSelectedChat}
+          />
         ))}
       </div>
     </Paper>

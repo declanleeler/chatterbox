@@ -1,76 +1,16 @@
-import { Grid2 } from '@mui/material';
-import { FC, useState } from 'react';
-import MessageInput from './MessageInput';
-import MessageList from './MessageList';
-import { Message } from '../../interfaces/Message';
+import { FC } from 'react';
+import NoSelectedChat from './NoSelectedChat';
+import SelectedChatMessages from './SelectedChatMessages';
 
-const Messaging: FC = () => {
-  const [input, setInput] = useState<string | null>(null);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      conversationId: '1',
-      userId: 123,
-      messageText: 'text1',
-      createdOn: 1234,
-    },
-    {
-      conversationId: '1',
-      userId: 123,
-      messageText: 'text2 text2 text2 text2 text2 text2 text2 ',
-      createdOn: 1235,
-    },
-    {
-      conversationId: '1',
-      userId: 123,
-      messageText: 'text3 text3 text3 text3 ',
-      createdOn: 1236,
-    },
-    {
-      conversationId: '1',
-      userId: 123,
-      messageText: ' text4 text4 text4',
-      createdOn: 1237,
-    },
-  ]);
+interface MessagingProps {
+  selectedChat: string | null;
+}
 
-  return (
-    <Grid2
-      id="chat"
-      container
-      spacing={2}
-      direction="column"
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        height: '100%',
-        paddingX: 5,
-      }}
-    >
-      <Grid2
-        id="convo"
-        sx={{
-          width: '100%',
-        }}
-      >
-        <MessageList messages={messages} />
-      </Grid2>
-
-      <Grid2
-        id="input-convo"
-        sx={{
-          marginTop: 1,
-          minWidth: '100%',
-          paddingBottom: 5,
-        }}
-      >
-        <MessageInput
-          input={input}
-          setInput={setInput}
-          setMessages={setMessages}
-        />
-      </Grid2>
-    </Grid2>
-  );
+const Messaging: FC<MessagingProps> = ({ selectedChat }) => {
+  if (!selectedChat) {
+    return <NoSelectedChat />;
+  }
+  return <SelectedChatMessages selectedChat={selectedChat} />;
 };
 
 export default Messaging;

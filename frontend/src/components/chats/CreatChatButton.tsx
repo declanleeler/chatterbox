@@ -10,7 +10,6 @@ import { useQueryClient } from '@tanstack/react-query';
 const CreatChatButton: FC = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  console.log(user?.id);
 
   const handleGenerateChat = async (): Promise<void> => {
     const now = DateTime.now();
