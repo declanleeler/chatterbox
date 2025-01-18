@@ -1,10 +1,10 @@
 import { Grid2 } from '@mui/material';
 import { FC, useState } from 'react';
-import ChatInput from './ChatInput';
+import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 import { Message } from '../../interfaces/Message';
 
-const Chat: FC = () => {
+const Messaging: FC = () => {
   const [input, setInput] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -63,7 +63,7 @@ const Chat: FC = () => {
           paddingBottom: 5,
         }}
       >
-        <ChatInput
+        <MessageInput
           input={input}
           setInput={setInput}
           setMessages={setMessages}
@@ -73,4 +73,4 @@ const Chat: FC = () => {
   );
 };
 
-export default Chat;
+export default Messaging;

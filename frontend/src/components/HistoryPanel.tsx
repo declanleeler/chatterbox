@@ -1,30 +1,67 @@
-import { Paper } from '@mui/material';
+import { CircularProgress, Paper, Typography } from '@mui/material';
 import { FC } from 'react';
-import ConversationButton from './conversation/ConversationButton';
-import NewHistory from './conversation/NewHistory';
-import { Conversation } from '../interfaces/Conversation';
-
-const conversation: Conversation[] = [
-  {
-    userId: '10dsfjh9435WERFS',
-    name: 'convo 1',
-    createdOn: 1737195438900,
-  },
-  {
-    userId: '10dsfjh9435WERFS',
-    name: 'convo 2',
-    status: 'ready',
-    createdOn: 1737195438900,
-  },
-];
+import ChatListItem from './chats/ChatListItem';
+import CreatChatButton from './chats/CreatChatButton';
+import { useQuery } from '@tanstack/react-query';
+import fetchUserChats from '../actions/fetchUserChats';
+import { useAuth } from '../contexts/AuthProvider';
 
 const HistoryPanel: FC = () => {
+  const { user } = useAuth();
+  const { data: chatData, isLoading } = useQuery({
+    queryKey: ['userChats'],
+    queryFn: async () => {
+      return fetchUserChats(user!.id);
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <Paper
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <CircularProgress />
+      </Paper>
+    );
+  }
+
+  if (!chatData || chatData.chats.length === 0) {
+    return (
+      <Paper
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Typography>No chats available</Typography>
+      </Paper>
+    );
+  }
+
   return (
-    <Paper sx={{ minHeight: '100vh' }}>
-      <NewHistory />
-      {conversation.map((convo) => {
-        return <ConversationButton convo={convo} />;
-      })}
+    <Paper sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* CreateChatButton stays fixed at the top */}
+      <CreatChatButton />
+
+      {/* Scrollable area for the chat list */}
+      <div
+        style={{
+          flexGrow: 1,
+          overflowY: 'auto', // Enable vertical scrolling
+          overflowX: 'hidden', // Disable horizontal scrolling
+        }}
+      >
+        {chatData.chats.map((chat) => (
+          <ChatListItem key={chat.createdOn} chat={chat} />
+        ))}
+      </div>
     </Paper>
   );
 };

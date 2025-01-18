@@ -5,17 +5,13 @@ db.createCollection("users", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["email", "googleId"],
+      required: ["login", "userId"],
       properties: {
-        email: {
+        userId: {
           bsonType: "string",
           description: "must be a string and is required",
         },
-        googleId: {
-          bsonType: "string",
-          description: "must be a string and is required",
-        },
-        name: {
+        login: {
           bsonType: "string",
           description: "optional string for user's display name",
         },
@@ -23,45 +19,33 @@ db.createCollection("users", {
           bsonType: "date",
           description: "timestamp when the document was created",
         },
-        updatedOn: {
-          bsonType: "date",
-          description: "timestamp when the document was last updated",
-        },
       },
     },
   },
 });
 
 // Create indices for User Collection
-db.users.createIndex({ googleId: 1 });
-db.users.createIndex({ conversationId: 1 });
+db.users.createIndex({ userId: 1 });
+db.users.createIndex({ chatId: 1 });
 
-// Create Conversations Collection with schema validation
-db.createCollection("conversations", {
+// Create Chats Collection with schema validation
+db.createCollection("chats", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["_id", "googleId", "createdOn"],
+      required: ["userId", "createdOn", "name"],
       properties: {
-        _id: {
-          bsonType: "objectId",
-          description: "Must be a valid ObjectId and is required",
+        userId: {
+          bsonType: "int",
+          description: "Must be a valid int and is required",
         },
-        googleId: {
+        name: {
           bsonType: "string",
           description: "Must be a valid string and is required",
         },
-        status: {
-          bsonType: "string",
-          description: "Optional field to track the status",
-        },
         createdOn: {
-          bsonType: "date",
+          bsonType: "long",
           description: "Must be a valid date and is required",
-        },
-        updatedOn: {
-          bsonType: "date",
-          description: "Optional field for the last updated timestamp",
         },
       },
     },
@@ -69,9 +53,8 @@ db.createCollection("conversations", {
 });
 
 // Create indices for Conversations Collection
-db.conversations.createIndex({ googleId: 1 });
-db.conversations.createIndex({ status: 1 });
-db.conversations.createIndex({ createdOn: 1 });
+db.chats.createIndex({ userId: 1 });
+db.chats.createIndex({ createdOn: 1 });
 
 // Create Messages Collection with schema validation
 db.createCollection("messages", {

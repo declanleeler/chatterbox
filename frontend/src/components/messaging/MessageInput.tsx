@@ -1,20 +1,25 @@
 import { Box, Button, TextField } from '@mui/material';
 import { FC } from 'react';
-import fetchChat from '../../actions/fetchChat';
+import fetchMessage from '../../actions/fetchMessage';
 import { useMutation } from '@tanstack/react-query';
 import { Message } from '../../interfaces/Message';
 import { useAuth } from '../../contexts/AuthProvider';
+import { DateTime } from 'luxon';
 
-interface ChatInputProps {
+interface MessageInputProps {
   input: string | null;
   setInput: React.Dispatch<React.SetStateAction<string | null>>;
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
-const ChatInput: FC<ChatInputProps> = ({ input, setInput, setMessages }) => {
+const MessageInput: FC<MessageInputProps> = ({
+  input,
+  setInput,
+  setMessages,
+}) => {
   const { user } = useAuth();
   const { mutate, isPending } = useMutation({
-    mutationFn: fetchChat,
+    mutationFn: fetchMessage,
     onSuccess: (response) => {
       console.log(response.message);
       setMessages((prevMessages) => [...prevMessages, response.message]);
@@ -30,7 +35,7 @@ const ChatInput: FC<ChatInputProps> = ({ input, setInput, setMessages }) => {
         conversationId: '1',
         userId: user!.id,
         messageText: input,
-        createdOn: Date.now(),
+        createdOn: DateTime.now().toMillis(),
       };
 
       setMessages((prevMessages) => [...prevMessages, userMessage]);
@@ -64,4 +69,4 @@ const ChatInput: FC<ChatInputProps> = ({ input, setInput, setMessages }) => {
   );
 };
 
-export default ChatInput;
+export default MessageInput;

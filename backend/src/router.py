@@ -1,7 +1,15 @@
 import time
 from fastapi import APIRouter, HTTPException
 
-from .models.models import ChatRequest, Message, OAuthCodeRequest
+from src.services.chat_management_service import get_user_chats, save_chat
+
+from .models.models import (
+    MessageRequest,
+    ChatsRequest,
+    Message,
+    OAuthCodeRequest,
+    CreateChatRequest,
+)
 
 from .services.oauth_service import (
     code_already_used,
@@ -36,8 +44,24 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
     return {"user": filtered_user, "token": access_token, "tokenType": token_type}
 
 
-@router.post("/chat")
-async def handle_chat(request: ChatRequest):
+@router.post("/chats")
+async def get_chats(request: ChatsRequest):
+    user_id = request.userId
+    chats = await get_user_chats(user_id)
+    return {"chats": chats}
+
+
+@router.post("/create_chat")
+async def create_chat(request: CreateChatRequest):
+    chat = request.chat
+    chat_id = await save_chat(chat)
+    if not chat_id:
+        raise HTTPException(status_code=500, detail="Failed to save chat")
+    return {"message": "Chat created successfully", "chatId": chat_id}
+
+
+@router.post("/message")
+async def handle_message(request: MessageRequest):
     user_message = request.message
     if not user_message:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
@@ -45,7 +69,7 @@ async def handle_chat(request: ChatRequest):
     robot_response = f"Robot answer to: {user_message.messageText}"
     robot_message = Message(
         conversationId=request.message.conversationId,
-        senderId=10101010,
+        userId=10101010,
         messageText=robot_response,
         createdOn=int(time.time() * 1000),
     )

@@ -2,7 +2,7 @@ import { Grid2, useTheme } from '@mui/material';
 import { FC } from 'react';
 import HistoryPanel from './HistoryPanel';
 import TopBar from './Topbar';
-import Chat from './chat/Chat';
+import Messaging from './messaging/Messaging';
 
 const Home: FC = () => {
   const theme = useTheme();
@@ -26,7 +26,7 @@ const Home: FC = () => {
         sx={{ display: 'flex' }}
       >
         <TopBar />
-        <Chat />
+        <Messaging />
       </Grid2>
     </Grid2>
   );

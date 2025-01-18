@@ -19,60 +19,28 @@ def str_to_objectid(id_str: str) -> ObjectId:
 
 
 class MongoBaseModel(BaseModel):
-    id: Optional[str] = Field(alias="_id", default=None)
-
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        json_encoders = {ObjectId: objectid_to_str}  # Convert ObjectId to string
 
-    # Validator to convert ObjectId to string when reading from MongoDB
-    @field_validator("id", mode="before")
-    def validate_id(cls, v):
-        return objectid_to_str(v) if v else None
-
-    # Method to convert back to MongoDB format, with ObjectId
+    # Method to convert back to MongoDB format with ObjectId
     def to_mongo(self) -> dict:
-        data = self.dict()
-        if isinstance(data.get("id"), str):
-            data["_id"] = str_to_objectid(data["id"])
+        data = self.dict(exclude_unset=True)
+        if "_id" in data and isinstance(data["_id"], str):
+            data["_id"] = str_to_objectid(data["_id"])
         return data
 
-    @classmethod
-    def from_mongo(cls, data: dict) -> "MongoBaseModel":
-        data["_id"] = objectid_to_str(
-            data["_id"]
-        )  # Convert ObjectId to string for response
-        return cls(**data)
 
-
-class User(MongoBaseModel):
-    email: str
-    googleId: str
-    name: Optional[str] = None
-    createdOn: datetime
-    updatedOn: Optional[datetime] = None
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
-
-
-# Input schema for creating a new Conversation
-class ConversationCreate(BaseModel):
+class User(BaseModel):
     userId: str
-    status: Optional[str] = None
-    createdOn: datetime
-
-    class Config:
-        orm_mode = True
+    login: str
 
 
-# Output schema for retrieving a Conversation
-class Conversation(MongoBaseModel):
-    userId: str
-    status: Optional[str] = None
-    createdOn: datetime
-    updatedOn: Optional[datetime] = None
+class Chat(MongoBaseModel):
+    userId: int
+    createdOn: int
+    name: str
 
     class Config:
         orm_mode = True
@@ -94,5 +62,13 @@ class OAuthCodeRequest(BaseModel):
     code: str
 
 
-class ChatRequest(BaseModel):
+class MessageRequest(BaseModel):
     message: Message
+
+
+class ChatsRequest(BaseModel):
+    userId: int
+
+
+class CreateChatRequest(BaseModel):
+    chat: Chat

@@ -1,7 +1,6 @@
-export interface Conversation {
-  userId: string;
+export interface Chat {
+  userId: number;
   name: string;
   createdOn: EpochTimeStamp;
-  status?: string;
   updatedOn?: EpochTimeStamp;
 }
