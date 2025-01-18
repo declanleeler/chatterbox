@@ -54,7 +54,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     // Store stringified user object and token in localStorage
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token', token); // Token is a string, so no need for JSON.stringify
+    localStorage.setItem('token', token);
   };
 
   const logout = () => {
