@@ -53,10 +53,11 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
     );
   }
 
-  console.log(selectedChat);
-
   return (
-    <Paper sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Paper
+      id="history-panel"
+      sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+    >
       {/* CreateChatButton stays fixed at the top */}
       <CreateChatButton />
 
@@ -68,12 +69,12 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
           overflowX: 'hidden', // Disable horizontal scrolling
         }}
       >
-        <Paper>selected chat: {selectedChat}</Paper>
         {chatData.chats.map((chat) => (
           <ChatListItem
             key={chat._id}
             chat={chat}
             setSelectedChat={setSelectedChat}
+            isHighlighted={chat._id === selectedChat ? true : false}
           />
         ))}
       </div>

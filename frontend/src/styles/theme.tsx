@@ -6,6 +6,9 @@ export const getTheme = (mode: 'light' | 'dark') => {
     palette: {
       mode,
     },
+    typography: {
+      fontFamily: '"Helvetica Neue", Arial, sans-serif',
+    },
     components: {
       MuiIconButton: {
         styleOverrides: {

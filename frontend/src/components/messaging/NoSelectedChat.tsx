@@ -1,14 +1,22 @@
-import { Grid2, Paper, Typography } from '@mui/material';
+import { Grid2, Typography, useTheme } from '@mui/material';
 import { FC } from 'react';
 
 const NoSelectedChat: FC = () => {
+  const theme = useTheme();
   return (
-    <Grid2 container justifyContent="center" alignItems="center">
-      <Paper>
-        <Typography variant="h4" sx={{ textAlign: 'center' }}>
-          Select or start a chat to begin
-        </Typography>
-      </Paper>
+    <Grid2
+      id="no-selected-chat"
+      container
+      justifyContent="center"
+      alignItems="center"
+      paddingBottom={60}
+    >
+      <Typography
+        variant="h4"
+        sx={{ textAlign: 'center', color: theme.palette.text.primary }}
+      >
+        Select or start a new chat to begin
+      </Typography>
     </Grid2>
   );
 };

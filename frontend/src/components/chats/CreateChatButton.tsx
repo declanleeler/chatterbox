@@ -1,4 +1,4 @@
-import { IconButton, Paper } from '@mui/material';
+import { IconButton, Box, Typography } from '@mui/material';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import { FC } from 'react';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -33,15 +33,21 @@ const CreateChatButton: FC = () => {
   };
 
   return (
-    <Paper
+    <Box
+      id="history-panel-top-bar"
       sx={{
         display: 'flex',
+        alignItems: 'center',
         minHeight: '48px',
         p: '8px',
         pr: '16px',
-        justifyContent: 'right',
+        justifyContent: 'space-between',
+        backgroundColor: 'transparent',
       }}
     >
+      <Typography variant="h6" sx={{ ml: 2 }}>
+        Chatterbox
+      </Typography>
       <IconButton
         size="large"
         edge="end"
@@ -52,7 +58,7 @@ const CreateChatButton: FC = () => {
       >
         <AddCommentIcon />
       </IconButton>
-    </Paper>
+    </Box>
   );
 };
 
