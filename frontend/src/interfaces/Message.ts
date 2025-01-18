@@ -1,6 +1,6 @@
 export interface Message {
-  conversationId: string;
-  senderId: string;
+  chatId: string;
+  userId: number;
   messageText: string;
-  createdOn: string;
+  createdOn: number;
 }

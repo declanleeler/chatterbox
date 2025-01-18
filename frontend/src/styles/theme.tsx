@@ -6,6 +6,9 @@ export const getTheme = (mode: 'light' | 'dark') => {
     palette: {
       mode,
     },
+    typography: {
+      fontFamily: '"Helvetica Neue", Arial, sans-serif',
+    },
     components: {
       MuiIconButton: {
         styleOverrides: {
@@ -20,27 +23,19 @@ export const getTheme = (mode: 'light' | 'dark') => {
         styleOverrides: {
           root: {
             '& .MuiFilledInput-root': {
-              borderRadius: '20px', // Rounded corners
-              boxShadow: 'none', // No shadow
-              '&:hover': {
-                borderColor: '#aaa', // Optional hover effect
-              },
-              '&.Mui-focused': {
-                borderColor: '#666', // Optional focus effect
-              },
-              // Remove the bottom border line
+              borderRadius: '20px',
+              boxShadow: 'none',
               '&.MuiFilledInput-underline:before': {
-                borderBottom: 'none', // Remove the default bottom border
+                borderBottom: 'none',
               },
-              // Add more vertical padding inside the text field
-              paddingTop: '12px', // Adjust padding as needed
-              paddingBottom: '12px', // Adjust padding as needed
+              paddingTop: '12px',
+              paddingBottom: '12px',
             },
             '& .MuiInputLabel-root': {
-              top: '-5px', // Adjust label position
+              top: '-5px',
             },
             '& .MuiInputLabel-shrink': {
-              transform: 'translate(12px, -8px) scale(0.75)', // Adjust label shrink position
+              transform: 'translate(12px, -8px) scale(0.75)',
             },
           },
         },

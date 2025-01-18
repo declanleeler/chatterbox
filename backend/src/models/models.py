@@ -1,66 +1,55 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from bson import ObjectId
-from datetime import datetime
-from typing import Optional
+from typing import Any
 
 
-class ObjectIdStr(str):
-    """Custom type to validate and handle ObjectId as strings."""
+# Helper function to convert ObjectId to string
+def objectid_to_str(obj_id: Any) -> str:
+    """Convert ObjectId to string."""
+    if isinstance(obj_id, ObjectId):
+        return str(obj_id)
+    return obj_id
 
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
 
-    @classmethod
-    def validate(cls, v):
-        if not ObjectId.is_valid(v):
-            raise ValueError("Invalid ObjectId")
-        return str(v)
+# Helper function to convert string to ObjectId
+def str_to_objectid(id_str: str) -> ObjectId:
+    """Convert string to ObjectId."""
+    return ObjectId(id_str) if id_str else None
 
 
 class User(BaseModel):
-    id: Optional[ObjectIdStr] = Field(alias="_id")
-    email: str
-    googleId: str
-    name: Optional[str] = None
-    createdOn: datetime
-    updatedOn: Optional[datetime] = None
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
+    userId: str
+    login: str
 
 
-# Input schema for creating a new Conversation
-class ConversationCreate(BaseModel):
-    googleId: str
-    status: Optional[str] = None
-    createdOn: datetime
-
-    class Config:
-        orm_mode = True
-
-
-# Output schema for retrieving a Conversation
-class Conversation(BaseModel):
-    id: ObjectIdStr = Field(alias="_id")
-    googleId: str
-    status: Optional[str] = None
-    createdOn: datetime
-    updatedOn: Optional[datetime] = None
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
+class Chat(BaseModel):
+    userId: int
+    createdOn: int
+    name: str
 
 
 class Message(BaseModel):
-    id: Optional[ObjectIdStr] = Field(alias="_id")
-    conversationId: ObjectIdStr
-    senderId: str
+    chatId: str
+    userId: int
     messageText: str
-    createdOn: datetime
+    createdOn: int
 
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+
+
+class OAuthCodeRequest(BaseModel):
+    code: str
+
+
+class MessageRequest(BaseModel):
+    message: Message
+
+
+class ChatsRequest(BaseModel):
+    userId: int
+
+
+class CreateChatRequest(BaseModel):
+    chat: Chat

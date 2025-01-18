@@ -53,12 +53,13 @@ const TopBar: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" elevation={0}>
         <Toolbar
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
             paddingRight: 2,
+            minHeight: '48px',
           }}
         >
           <ToggleLightModeButton />
