@@ -34,6 +34,7 @@ async def get_messages_by_chatId(chat_id: str) -> Optional[Message]:
         message_docs = (
             await mongo.db[MESSAGES_COLLECTION].find({"chatId": chat_id}).to_list()
         )
+        print(message_docs)
         for message in message_docs:
             message["_id"] = str(message["_id"])
         return message_docs

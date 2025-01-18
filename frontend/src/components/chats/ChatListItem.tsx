@@ -19,7 +19,9 @@ const ChatListItem: FC<ChatButtonProps> = ({ chat, setSelectedChat }) => {
           borderRadius: 1,
         },
       }}
-      onClick={() => setSelectedChat(chat._id)}
+      onClick={() => {
+        setSelectedChat(chat._id);
+      }}
     >
       <Typography
         variant="h6"

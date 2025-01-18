@@ -2,12 +2,12 @@ import { IconButton, Paper } from '@mui/material';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import { FC } from 'react';
 import { useAuth } from '../../contexts/AuthProvider';
-import { Chat } from '../../interfaces/Chat';
+import { NewChat } from '../../interfaces/Chat';
 import { DateTime } from 'luxon';
 import createChat from '../../actions/createChat';
 import { useQueryClient } from '@tanstack/react-query';
 
-const CreatChatButton: FC = () => {
+const CreateChatButton: FC = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -17,7 +17,7 @@ const CreatChatButton: FC = () => {
 
     const formattedTimestamp = now.toFormat('dd/MM/yy HH:mm:ss');
 
-    const newChat: Chat = {
+    const newChat: NewChat = {
       userId: user!.id,
       name: `Chat - ${formattedTimestamp}`,
       createdOn: timestampInMillis as EpochTimeStamp,
@@ -56,4 +56,4 @@ const CreatChatButton: FC = () => {
   );
 };
 
-export default CreatChatButton;
+export default CreateChatButton;

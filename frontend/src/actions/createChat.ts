@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { Chat } from '../interfaces/Chat';
+import { NewChat } from '../interfaces/Chat';
 
 interface ChatResponse {
-  chat: Chat;
+  chat: NewChat;
 }
 
-const createChat = async (chat: Chat): Promise<ChatResponse> => {
+const createChat = async (chat: NewChat): Promise<ChatResponse> => {
   const response = await axios.post('/api/create_chat', {
     chat,
   });

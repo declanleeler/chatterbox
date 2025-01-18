@@ -18,7 +18,10 @@ const Home: FC = () => {
       }}
     >
       <Grid2 id="left-panel" size={3}>
-        <HistoryPanel setSelectedChat={setSelectedChat} />
+        <HistoryPanel
+          setSelectedChat={setSelectedChat}
+          selectedChat={selectedChat}
+        />
       </Grid2>
       <Grid2
         id="right-panel"

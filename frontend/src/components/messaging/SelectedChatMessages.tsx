@@ -15,13 +15,12 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['chatMessages'],
+    queryKey: ['chatMessages', selectedChat],
     queryFn: async () => {
       return fetchChatMessages(selectedChat!);
     },
   });
-  console.log({ data });
-  console.log({ messages });
+
   useEffect(() => {
     if (data) {
       setMessages(data.messages);
