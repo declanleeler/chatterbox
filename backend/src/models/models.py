@@ -59,7 +59,7 @@ class User(MongoBaseModel):
 
 # Input schema for creating a new Conversation
 class ConversationCreate(BaseModel):
-    googleId: str
+    userId: str
     status: Optional[str] = None
     createdOn: datetime
 
@@ -69,7 +69,7 @@ class ConversationCreate(BaseModel):
 
 # Output schema for retrieving a Conversation
 class Conversation(MongoBaseModel):
-    googleId: str
+    userId: str
     status: Optional[str] = None
     createdOn: datetime
     updatedOn: Optional[datetime] = None
@@ -81,7 +81,7 @@ class Conversation(MongoBaseModel):
 
 class Message(MongoBaseModel):
     conversationId: str
-    senderId: int
+    userId: int
     messageText: str
     createdOn: int
 

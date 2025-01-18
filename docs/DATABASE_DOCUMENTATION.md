@@ -42,7 +42,7 @@
 
 - **\_id**: MongoDB ObjectId (default)
 - **conversationId**: String, required (foreign key to `Conversation` collection)
-- **senderId**: String, required (foreign key to `User` collection or "system" for bot messages)
+- **userId**: String, required (foreign key to `User` collection or "system" for bot messages)
 - **messageText**: String, required
 - **createdOn**: Date, required
 

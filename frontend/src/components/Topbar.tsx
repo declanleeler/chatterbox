@@ -59,6 +59,7 @@ const TopBar: React.FC = () => {
             display: 'flex',
             justifyContent: 'flex-end',
             paddingRight: 2,
+            minHeight: '48px',
           }}
         >
           <ToggleLightModeButton />

@@ -28,7 +28,7 @@ const ChatInput: FC<ChatInputProps> = ({ input, setInput, setMessages }) => {
     if (input) {
       const userMessage: Message = {
         conversationId: '1',
-        senderId: user!.id,
+        userId: user!.id,
         messageText: input,
         createdOn: Date.now(),
       };
