@@ -1,3 +1,4 @@
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { FC, useEffect } from 'react';
 
 const AuthRedirect: FC = () => {
@@ -12,7 +13,25 @@ const AuthRedirect: FC = () => {
     window.location.href = githubAuthUrl;
   }, []);
 
-  return <div>Redirecting to GitHub...</div>;
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        width: '100vw',
+        textAlign: 'center',
+        gap: 2,
+        padding: 2,
+        boxSizing: 'border-box',
+      }}
+    >
+      <CircularProgress />
+      <Typography variant="h1">Redirecting to GitHub..</Typography>
+    </Box>
+  );
 };
 
 export default AuthRedirect;

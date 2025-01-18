@@ -1,11 +1,14 @@
 import { FC } from 'react';
 import AppRouter from './routes/router';
 import AuthProvider from './contexts/AuthProvider';
+import CustomThemeProvider from './contexts/CustomThemeProvider';
 
 const App: FC = () => {
   return (
     <AuthProvider>
-      <AppRouter />
+      <CustomThemeProvider>
+        <AppRouter />
+      </CustomThemeProvider>
     </AuthProvider>
   );
 };

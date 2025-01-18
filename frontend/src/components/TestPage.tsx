@@ -1,15 +1,15 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Grid2, Typography } from '@mui/material';
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const Login: FC = () => {
-  const navigate = useNavigate();
-
-  const handleLoginClick = () => {
-    navigate('/auth-redirect');
-  };
-
+const TestPage: FC = () => {
   return (
+    // <Grid2
+    //   container
+    //   sx={{ height: '100vh', width: '100vh' }}
+    //   alignItems="flex-start"
+    // >
+    //   <div style={{ border: '1px solid blue' }}>hello</div>
+    // </Grid2>
     <Box
       sx={{
         display: 'flex',
@@ -30,11 +30,11 @@ const Login: FC = () => {
       >
         Welcome to Chatterbox
       </Typography>
-      <Button variant="contained" color="primary" onClick={handleLoginClick}>
+      <Button variant="contained" color="primary">
         Sign in with GitHub
       </Button>
     </Box>
   );
 };
 
-export default Login;
+export default TestPage;

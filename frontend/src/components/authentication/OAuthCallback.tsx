@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation after successful login
-import fetchGithubOauth from '../actions/fetchGithubOauth';
+import { useNavigate } from 'react-router-dom';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import fetchGithubOauth from '../../actions/fetchGithubOauth';
 
 const OAuthCallback: FC = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const OAuthCallback: FC = () => {
           }
 
           // Redirect to the dashboard or protected route
-          navigate('/home'); // Use navigate() for client-side routing
+          navigate('/home');
         } catch (error) {
           console.error('Error handling OAuth callback:', error);
         }
@@ -39,7 +40,25 @@ const OAuthCallback: FC = () => {
     handleOauth();
   }, [navigate]);
 
-  return <div>Processing GitHub callback...</div>;
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        width: '100vw',
+        textAlign: 'center',
+        gap: 2,
+        padding: 2,
+        boxSizing: 'border-box',
+      }}
+    >
+      <CircularProgress />
+      <Typography variant="h1">Processing GitHub callback...</Typography>
+    </Box>
+  );
 };
 
 export default OAuthCallback;
