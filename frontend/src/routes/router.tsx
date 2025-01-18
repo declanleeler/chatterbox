@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthProvider';
 import Login from '../components/Login';
 import AuthRedirect from '../components/authentication/AuthRedirect';
 import OAuthCallback from '../components/authentication/OAuthCallback';
+import TestPage from '../components/TestPage';
 
 const AppRouter = () => {
   const { user } = useAuth();
@@ -30,6 +31,10 @@ const AppRouter = () => {
           element: <Home />,
         },
       ],
+    },
+    {
+      path: '/test',
+      element: <TestPage />,
     },
   ]);
 

@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation after successful login
+import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import fetchGithubOauth from '../../actions/fetchGithubOauth';
 
@@ -30,7 +30,7 @@ const OAuthCallback: FC = () => {
           }
 
           // Redirect to the dashboard or protected route
-          navigate('/home'); // Use navigate() for client-side routing
+          navigate('/home');
         } catch (error) {
           console.error('Error handling OAuth callback:', error);
         }

@@ -1,22 +1,24 @@
 import { FC } from 'react';
-import { useAuth } from '../contexts/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { Grid2 } from '@mui/material';
+import TopBar from './Topbar';
+import ChatHistory from './Navbar';
+import Chat from './Chat';
 
 const Home: FC = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
-
   return (
-    <div>
-      Welcome to the Home Page! You are logged in as {user?.login}, id{' '}
-      {user?.id}
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <Grid2
+      container
+      sx={{ minWidth: '100vw', minHeight: '100vh' }}
+      alignItems="flex-start"
+    >
+      <Grid2 size={3}>
+        <ChatHistory />
+      </Grid2>
+      <Grid2 size={9} justifyContent="flex-end">
+        <TopBar />
+        <Chat />
+      </Grid2>
+    </Grid2>
   );
 };
 
