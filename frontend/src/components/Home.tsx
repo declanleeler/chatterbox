@@ -1,7 +1,7 @@
-import { FC } from 'react';
 import { Grid2, useTheme } from '@mui/material';
-import TopBar from './Topbar';
+import { FC } from 'react';
 import HistoryPanel from './HistoryPanel';
+import TopBar from './Topbar';
 import Chat from './chat/Chat';
 
 const Home: FC = () => {
