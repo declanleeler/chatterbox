@@ -17,9 +17,15 @@ const MessageList: FC<MessageListProps> = ({ messages }) => {
         </ListItem>
       ) : (
         messages.map((message) => (
-          <ListItem key={message.createdOn}>
-            {/* Ensure a key is provided for each item */}
-            <Paper sx={{ padding: 2 }}>
+          <ListItem
+            key={`${message.userId}_${message.createdOn}`}
+            sx={{
+              display: 'flex',
+              justifyContent:
+                message.userId === 10101010 ? 'flex-start' : 'flex-end',
+            }}
+          >
+            <Paper sx={{ padding: 2, maxWidth: '80%' }}>
               <ListItemText>{message.messageText}</ListItemText>
             </Paper>
           </ListItem>
