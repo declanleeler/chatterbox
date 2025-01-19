@@ -1,10 +1,10 @@
-import { CircularProgress, Paper, Typography } from '@mui/material';
-import { FC } from 'react';
-import ChatListItem from './chats/ChatListItem';
-import CreateChatButton from './chats/CreateChatButton';
+import { Box, CircularProgress, Paper, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
+import { FC } from 'react';
 import fetchUserChats from '../actions/fetchUserChats';
 import { useAuth } from '../contexts/AuthProvider';
+import ChatListItem from './chats/ChatListItem';
+import CreateChatButton from './chats/CreateChatButton';
 
 interface HistoryPanelProps {
   selectedChat: string | null;
@@ -16,6 +16,7 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
   setSelectedChat,
 }) => {
   const { user } = useAuth();
+
   const { data: chatData, isLoading } = useQuery({
     queryKey: ['userChats'],
     queryFn: async () => {
@@ -56,17 +57,35 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
   return (
     <Paper
       id="history-panel"
-      sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
     >
-      {/* CreateChatButton stays fixed at the top */}
-      <CreateChatButton />
+      <Box
+        id="history-panel-top-bar"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          minHeight: '48px',
+          p: '8px',
+          pr: '16px',
+          justifyContent: 'space-between',
+          backgroundColor: 'transparent',
+        }}
+      >
+        <Typography id="LOGO-TEXT" variant="h6" sx={{ ml: 2 }}>
+          CHATTERBOX
+        </Typography>
+        <CreateChatButton setSelectedChat={setSelectedChat} />
+      </Box>
 
-      {/* Scrollable area for the chat list */}
       <div
         style={{
           flexGrow: 1,
-          overflowY: 'auto', // Enable vertical scrolling
-          overflowX: 'hidden', // Disable horizontal scrolling
+          overflowY: 'auto',
         }}
       >
         {chatData.chats.map((chat) => (

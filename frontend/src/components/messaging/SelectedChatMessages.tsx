@@ -1,5 +1,5 @@
 import { Grid2, Typography } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 import { Message } from '../../interfaces/Message';
@@ -20,6 +20,14 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
       return fetchChatMessages(selectedChat!);
     },
   });
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Scroll to the bottom whenever messages change
+    if (gridRef.current) {
+      gridRef.current.scrollTop = gridRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (data) {
@@ -42,32 +50,36 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
 
   return (
     <Grid2
-      id="chat"
+      id="chat-grid"
       container
-      spacing={2}
+      spacing={1}
       direction="column"
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        height: '100%',
+        height: '100vh',
         paddingX: 5,
+        overflow: 'hidden',
       }}
     >
       <Grid2
-        id="convo"
+        id="chat-messages-grid"
+        ref={gridRef}
         sx={{
           width: '100%',
+          height: '50%', //set to small amount to cater to small screens
+          flexGrow: 1, // dynamically fill the remaining space
+          overflowY: 'auto',
         }}
       >
         <MessageList messages={messages} />
       </Grid2>
 
       <Grid2
-        id="input-convo"
+        id="chat-input-grid"
         sx={{
-          marginTop: 1,
-          minWidth: '100%',
-          paddingBottom: 5,
+          flexShrink: 0,
+          paddingY: 2,
         }}
       >
         <MessageInput

@@ -1,6 +1,7 @@
 import time
 from fastapi import APIRouter, HTTPException
 
+from src.services.gemini_api import generate
 from src.services.messages_management_service import (
     get_messages_by_chatId,
     save_message,
@@ -61,30 +62,44 @@ async def create_chat(request: CreateChatRequest):
     chat_id = await save_chat(chat)
     if not chat_id:
         raise HTTPException(status_code=500, detail="Failed to save chat")
-    return {"message": "Chat created successfully", "chatId": chat_id}
+    return {"chatId": chat_id}
 
 
 @router.post("/message")
 async def handle_message(request: MessageRequest):
     user_message = request.message
-
+    history = request.history
     # Save user message
     await save_message(user_message)
+    try:
+        # Get the response from the model
+        llm_response_text = generate(user_message.messageText, history)
+        # TODO remove tests
+        # llm_response_text = "im good"
+        # time.sleep(2)
+        # raise HTTPException(
+        #     status_code=500, detail="Failed to generate response from model"
+        # )
+        if llm_response_text is None:
+            raise HTTPException(
+                status_code=500, detail="Failed to generate response from model"
+            )
 
-    # TODO do LLM here
-    robot_response = f"Robot answer to: {user_message.messageText}"
-    time.sleep(3)
-    robot_message = Message(
-        chatId=request.message.chatId,
-        userId=10101010,
-        messageText=robot_response,
-        createdOn=int(time.time() * 1000),
-    )
+        llm_message = Message(
+            chatId=request.message.chatId,
+            userId=10101010,  # HARDCODE ROBOT ID
+            messageText=llm_response_text,
+            createdOn=int(time.time() * 1000),
+        )
+
+    except Exception as e:
+        print(f"Error during message processing: {e}")
+        raise HTTPException(status_code=500, detail="Failed to process message")
 
     # Save LLM message
-    await save_message(robot_message)
+    await save_message(llm_message)
 
-    return {"message": robot_message}
+    return {"message": llm_message}
 
 
 @router.get("/chat/{chat_id}")

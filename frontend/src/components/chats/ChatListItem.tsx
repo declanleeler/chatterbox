@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Chat } from '../../interfaces/Chat';
-import { ListItemButton, Typography, useTheme } from '@mui/material';
+import { ListItemButton, ListItemText, useTheme } from '@mui/material';
+import { DateTime } from 'luxon';
 
 interface ChatButtonProps {
   chat: Chat;
@@ -32,18 +33,12 @@ const ChatListItem: FC<ChatButtonProps> = ({
         setSelectedChat(chat._id);
       }}
     >
-      <Typography
-        variant="h6"
-        sx={{
-          width: '100%',
-          height: '24px',
-          paddingLeft: '16px',
-          paddingRight: '16px',
-          // gap: 2,
-        }}
-      >
-        {chat.name}
-      </Typography>
+      <ListItemText
+        primary={chat.name}
+        secondary={DateTime.fromMillis(chat.createdOn).toFormat(
+          'dd/MM/yyyy HH:mm',
+        )}
+      />
     </ListItemButton>
   );
 };
