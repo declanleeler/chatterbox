@@ -7,11 +7,11 @@ interface GitHubOAuthResponse {
   user: GitHubUserData;
 }
 
-const fetchGithubOauth = async (code: string): Promise<GitHubOAuthResponse> => {
+const fetchGithubOauth = async (code: string) => {
   const response = await axios.post('/api/oauth/redirect', {
     code,
   });
-  return response.data;
+  return response;
 };
 
 export default fetchGithubOauth;

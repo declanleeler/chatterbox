@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import fetchGithubOauth from '../../actions/fetchGithubOauth';
 import { useAuth } from '../../contexts/AuthProvider';
+import axios from 'axios';
 
 const OAuthCallback: FC = () => {
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { setAuth, token: contextToken } = useAuth();
   useEffect(() => {
     const handleOauth = async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -20,21 +21,24 @@ const OAuthCallback: FC = () => {
       }
 
       if (code) {
-        try {
-          const data = await fetchGithubOauth(code);
-          const { token, user } = data;
-
+        const response = await fetchGithubOauth(code);
+        if (response.status !== 200) {
+          console.error('Error handling OAuth callback:', response);
+        } else {
+          const { token, user } = await response.data;
           setAuth(token, user);
-
           navigate('/home');
-        } catch (error) {
-          console.error('Error handling OAuth callback:', error);
         }
       }
     };
 
-    handleOauth();
-  }, [navigate]);
+    if (contextToken === null) {
+      console.log('no token');
+      handleOauth();
+    } else {
+      navigate('/home');
+    }
+  }, [navigate, contextToken, setAuth]);
 
   return (
     <Box

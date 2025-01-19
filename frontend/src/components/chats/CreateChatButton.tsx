@@ -21,7 +21,7 @@ interface CreateChatButtonProps {
 }
 
 const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const handleOpenDialogue = () => {
@@ -35,9 +35,10 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
     event: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
-    if (!user) {
+    if (!user || !token) {
       return;
     }
+
     const formData = new FormData(event.currentTarget);
     const chatName = formData.get('chatName') as string;
 
@@ -50,7 +51,7 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
     };
 
     try {
-      const response = await createChat(newChat);
+      const response = await createChat(newChat, token);
       console.log(response);
       handleCloseDialog();
       setSelectedChat(response.chatId);

@@ -15,14 +15,22 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
   selectedChat,
   setSelectedChat,
 }) => {
-  const { user } = useAuth();
-
+  const { user, token } = useAuth();
   const { data: chatData, isLoading } = useQuery({
-    queryKey: ['userChats'],
+    queryKey: ['userChats', user?.id, token],
     queryFn: async () => {
-      return fetchUserChats(user!.id);
+      if (!user || !token) {
+        throw new Error('User or Token is missing');
+      }
+      return fetchUserChats(user!.id, token);
     },
+    enabled: !!user && !!token,
   });
+  // return (
+  //   <div>
+  //     <Paper>{chatData || 'hello'}</Paper>
+  //   </div>
+  // );
 
   if (isLoading) {
     return (
@@ -40,6 +48,7 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
   }
 
   if (!chatData || chatData.chats.length === 0) {
+    console.log(chatData);
     return (
       <Paper
         sx={{

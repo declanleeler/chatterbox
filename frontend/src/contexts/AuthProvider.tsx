@@ -15,6 +15,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const setAuth = (token: string, user: any) => {
+    console.log('token', token);
     setToken(token);
     setUser(user);
   };

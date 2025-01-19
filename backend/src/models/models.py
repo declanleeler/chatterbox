@@ -54,3 +54,7 @@ class ChatsRequest(BaseModel):
 
 class CreateChatRequest(BaseModel):
     chat: Chat
+
+
+class ChatRequest(BaseModel):
+    chatId: str

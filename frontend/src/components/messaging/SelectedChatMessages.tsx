@@ -5,6 +5,7 @@ import MessageList from './MessageList';
 import { Message } from '../../interfaces/Message';
 import { useQuery } from '@tanstack/react-query';
 import fetchChatMessages from '../../actions/fetchChatMessages';
+import { useAuth } from '../../contexts/AuthProvider';
 
 interface MessagingProps {
   selectedChat: string;
@@ -13,13 +14,22 @@ interface MessagingProps {
 const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
   const [input, setInput] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const { token } = useAuth();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['chatMessages', selectedChat],
+    queryKey: ['chatMessages', selectedChat, token],
     queryFn: async () => {
-      return fetchChatMessages(selectedChat!);
+      if (!token || selectedChat) {
+        throw new Error('Token is required but not provided.');
+      }
+      if (!selectedChat) {
+        throw new Error('selectedChat is required but not provided.');
+      }
+      return fetchChatMessages(selectedChat, token);
     },
+    enabled: !!selectedChat && !!token,
   });
+
   const gridRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
