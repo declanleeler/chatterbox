@@ -27,7 +27,6 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
       }
       return fetchChatMessages(selectedChat, token);
     },
-    enabled: !!selectedChat && !!token,
   });
 
   const gridRef = useRef<HTMLDivElement | null>(null);
