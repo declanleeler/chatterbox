@@ -33,7 +33,7 @@ const CustomThemeProvider: FC<CustomThemeProviderProps> = ({ children }) => {
   // Check local storage for the saved theme mode or default to light
   const storedMode = localStorage.getItem('themeMode');
   const [mode, setMode] = useState<PaletteMode>(
-    storedMode === 'dark' ? 'dark' : 'light',
+    storedMode === 'light' ? 'light' : 'dark',
   );
 
   // Update local storage whenever the theme mode changes
