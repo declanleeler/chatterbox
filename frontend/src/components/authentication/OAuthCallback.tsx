@@ -2,10 +2,11 @@ import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import fetchGithubOauth from '../../actions/fetchGithubOauth';
+import { useAuth } from '../../contexts/AuthProvider';
 
 const OAuthCallback: FC = () => {
   const navigate = useNavigate();
-
+  const { setAuth } = useAuth();
   useEffect(() => {
     const handleOauth = async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -23,13 +24,8 @@ const OAuthCallback: FC = () => {
           const data = await fetchGithubOauth(code);
           const { token, user } = data;
 
-          // Store token and user in localStorage
-          localStorage.setItem('authToken', token);
-          if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-          }
+          setAuth(token, user);
 
-          // Redirect to the dashboard or protected route
           navigate('/home');
         } catch (error) {
           console.error('Error handling OAuth callback:', error);

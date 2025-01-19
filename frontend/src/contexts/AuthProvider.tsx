@@ -1,74 +1,42 @@
-import {
-  createContext,
-  useState,
-  useContext,
-  FC,
-  ReactNode,
-  useEffect,
-} from 'react';
+import { createContext, useState, useContext, ReactNode, FC } from 'react';
 import { User } from '../interfaces/User';
 
 interface AuthContextType {
+  token: string | null;
   user: User | null;
-  authToken: string | null;
-  setAuth: (user: string, token: string) => void;
-  logout: () => void;
+  setAuth: (token: string, user: any) => void;
+  clearAuth: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
+const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  const setAuth = (token: string, user: any) => {
+    setToken(token);
+    setUser(user);
+  };
+
+  const clearAuth = () => {
+    setToken(null);
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ token, user, setAuth, clearAuth }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-};
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [authToken, setAuthToken] = useState<string | null>(
-    localStorage.getItem('authToken'),
-  );
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-    }
-  }, [authToken]);
-
-  const setAuth = (user: string, token: string) => {
-    // Set the token
-    setAuthToken(token);
-
-    // Parse the user string to JSON and extract necessary fields
-    const userJson = JSON.parse(user);
-
-    setUser(userJson);
-
-    // Store stringified user object and token in localStorage
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('token', token);
-  };
-
-  const logout = () => {
-    setUser(null);
-    setAuthToken(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, authToken, setAuth, logout }}>
-      <>{children}</>
-    </AuthContext.Provider>
-  );
 };
 
 export default AuthProvider;
