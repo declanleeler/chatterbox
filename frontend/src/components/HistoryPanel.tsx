@@ -56,14 +56,21 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
   return (
     <Paper
       id="history-panel"
-      sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        border: 'solid 1px green',
+      }}
     >
-      {/* CreateChatButton stays fixed at the top */}
       <CreateChatButton />
 
       <div
         style={{
           flexGrow: 1,
+          overflowY: 'auto',
+          border: 'solid 1px pink',
         }}
       >
         {chatData.chats.map((chat) => (

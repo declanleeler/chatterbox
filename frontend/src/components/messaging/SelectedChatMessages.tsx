@@ -42,37 +42,35 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
 
   return (
     <Grid2
-      id="chat"
+      id="chat-grid"
       container
-      spacing={2}
+      spacing={1}
       direction="column"
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        height: '100%',
+        height: '100vh',
         paddingX: 5,
-        border: 'solid red',
+        overflow: 'hidden',
       }}
     >
       <Grid2
-        id="convo"
+        id="chat-messages-grid"
         sx={{
           width: '100%',
-          maxHeight: '50%',
+          height: '50%', //set to small amount to cater to small screens
+          flexGrow: 1, // dynamically fill the remaining space
           overflowY: 'auto',
-          overflowX: 'hidden',
-          border: 'solid green',
         }}
       >
         <MessageList messages={messages} />
       </Grid2>
 
       <Grid2
-        id="input-convo"
+        id="chat-input-grid"
         sx={{
-          marginTop: 1,
-          minWidth: '100%',
-          paddingBottom: 5,
+          flexShrink: 0,
+          paddingY: 2,
         }}
       >
         <MessageInput

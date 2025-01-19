@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Message } from '../../interfaces/Message';
 import { List, ListItem, ListItemText, Paper, Typography } from '@mui/material';
+import ReactMarkdown from 'react-markdown';
 
 interface MessageListProps {
   messages: Message[];
@@ -26,7 +27,10 @@ const MessageList: FC<MessageListProps> = ({ messages }) => {
             }}
           >
             <Paper sx={{ padding: 2, maxWidth: '80%' }}>
-              <ListItemText>{message.messageText}</ListItemText>
+              {/* <ListItemText>{message.messageText}</ListItemText> */}
+              <Paper sx={{ padding: 2, maxWidth: '80%' }}>
+                <ReactMarkdown>{message.messageText}</ReactMarkdown>
+              </Paper>
             </Paper>
           </ListItem>
         ))

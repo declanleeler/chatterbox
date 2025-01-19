@@ -15,13 +15,27 @@ const Home: FC = () => {
       flexDirection={'row'}
       sx={{
         backgroundColor: theme.palette.background.default,
-        border: 'solid white',
-        maxHeight: '100vh',
-        overflowY: 'auto',
-        overflowX: 'hidden',
       }}
     >
-      <Grid2 id="left-panel" size={3}>
+      <Grid2
+        id="left-panel"
+        size={3}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          maxHeight: '100vh',
+          flexBasis: 0,
+          flexGrow: 1,
+          border: 'solid 1px red',
+          '&:hover ::-webkit-scrollbar-thumb': {
+            backgroundColor: 'grey',
+          },
+          '& ::-webkit-scrollbar-thumb': {
+            backgroundColor: 'transparent',
+            transition: 'background-color 0.3s ease',
+          },
+        }}
+      >
         <HistoryPanel
           setSelectedChat={setSelectedChat}
           selectedChat={selectedChat}
@@ -31,7 +45,17 @@ const Home: FC = () => {
         id="right-panel"
         size={9}
         flexDirection={'column'}
-        sx={{ display: 'flex', border: 'solid blue' }}
+        sx={{
+          display: 'flex',
+          maxHeight: '100vh',
+          '&:hover ::-webkit-scrollbar-thumb': {
+            backgroundColor: 'grey',
+          },
+          '& ::-webkit-scrollbar-thumb': {
+            backgroundColor: 'transparent',
+            transition: 'background-color 0.3s ease',
+          },
+        }}
       >
         <TopBar />
         <Messaging selectedChat={selectedChat} />
