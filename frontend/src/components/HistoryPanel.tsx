@@ -5,6 +5,7 @@ import fetchUserChats from '../actions/fetchUserChats';
 import { useAuth } from '../contexts/AuthProvider';
 import ChatListItem from './chats/ChatListItem';
 import CreateChatButton from './chats/CreateChatButton';
+import _ from 'lodash';
 
 interface HistoryPanelProps {
   selectedChat: string | null;
@@ -26,11 +27,6 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
     },
     enabled: !!user && !!token,
   });
-  // return (
-  //   <div>
-  //     <Paper>{chatData || 'hello'}</Paper>
-  //   </div>
-  // );
 
   if (isLoading) {
     return (
@@ -47,7 +43,11 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
     );
   }
 
-  if (!chatData || chatData.chats.length === 0) {
+  if (
+    _.isNil(chatData) ||
+    _.isNil(chatData.chats) ||
+    chatData.chats.length === 0
+  ) {
     return (
       <Paper
         sx={{
