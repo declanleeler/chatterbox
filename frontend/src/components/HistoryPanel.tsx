@@ -61,7 +61,6 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        border: 'solid 1px green',
       }}
     >
       <CreateChatButton />
@@ -70,7 +69,6 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
         style={{
           flexGrow: 1,
           overflowY: 'auto',
-          border: 'solid 1px pink',
         }}
       >
         {chatData.chats.map((chat) => (

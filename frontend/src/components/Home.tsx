@@ -26,7 +26,6 @@ const Home: FC = () => {
           maxHeight: '100vh',
           flexBasis: 0,
           flexGrow: 1,
-          border: 'solid 1px red',
           '&:hover ::-webkit-scrollbar-thumb': {
             backgroundColor: 'grey',
           },

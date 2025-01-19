@@ -28,9 +28,7 @@ const MessageList: FC<MessageListProps> = ({ messages }) => {
           >
             <Paper sx={{ padding: 2, maxWidth: '80%' }}>
               {/* <ListItemText>{message.messageText}</ListItemText> */}
-              <Paper sx={{ padding: 2, maxWidth: '80%' }}>
-                <ReactMarkdown>{message.messageText}</ReactMarkdown>
-              </Paper>
+              <ReactMarkdown>{message.messageText}</ReactMarkdown>
             </Paper>
           </ListItem>
         ))
