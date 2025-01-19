@@ -7,12 +7,12 @@ import AuthRedirect from '../components/authentication/AuthRedirect';
 import OAuthCallback from '../components/authentication/OAuthCallback';
 
 const AppRouter = () => {
-  const { user } = useAuth();
+  const { token } = useAuth();
 
   const router = createBrowserRouter([
     {
       path: '/',
-      element: user ? <Home /> : <Login />,
+      element: token === null ? <Login /> : <Home />,
     },
     {
       path: '/auth-redirect',

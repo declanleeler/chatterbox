@@ -27,7 +27,7 @@ const MessageInput: FC<MessageInputProps> = ({
   setInput,
   setMessages,
 }) => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const theme = useTheme();
   const latestMessageChatId = localStorage.getItem('latestMessageChatId');
   const shouldSendHistory =
@@ -44,7 +44,7 @@ const MessageInput: FC<MessageInputProps> = ({
   });
 
   const handleSendMessage = () => {
-    if (input) {
+    if (input && token) {
       const userMessage: Message = {
         chatId: selectedChat,
         userId: user!.id,
@@ -59,6 +59,7 @@ const MessageInput: FC<MessageInputProps> = ({
         mutate({
           message: userMessage,
           history: shouldSendHistory ? updatedMessages.slice(-10) : undefined,
+          token: token,
         });
 
         return updatedMessages; // Update state with the new message

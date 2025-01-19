@@ -1,6 +1,6 @@
 import os
 import requests
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException, Request, status
 
 used_codes = set()  # In-memory set to track used codes
 
@@ -53,3 +53,30 @@ def get_user_data(access_token: str, token_type: str):
     user_data = user_response.json()
     keys_to_keep = ["login", "id", "avatar_url"]
     return {key: user_data[key] for key in keys_to_keep if key in user_data}
+
+
+def get_authorization_header(request: Request):
+    authorization = request.headers.get("Authorization")
+    if not authorization:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authorization token missing",
+        )
+    return authorization
+
+
+async def verify_github_token(authorization: str = Depends(get_authorization_header)):
+    # Assuming the header format is "Bearer <token>"
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Authorization header is invalid. Token should start with 'Bearer '",
+        )
+
+    token = authorization.split(" ")[1]
+    user_data = get_user_data(token, "Bearer")
+
+    if user_data is None:
+        return False
+
+    return True

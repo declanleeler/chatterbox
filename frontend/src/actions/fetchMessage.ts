@@ -8,16 +8,26 @@ interface MessageResponse {
 interface FetchMessageProps {
   message: Message;
   history?: Message[];
+  token: string;
 }
 
 const fetchMessage = async ({
   message,
   history,
+  token,
 }: FetchMessageProps): Promise<MessageResponse> => {
-  const response = await axios.post('/api/message', {
-    message,
-    history,
-  });
+  const response = await axios.post(
+    '/api/message',
+    {
+      message,
+      history,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   return response.data;
 };
 

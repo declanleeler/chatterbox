@@ -5,10 +5,21 @@ interface ChatResponse {
   chatId: string;
 }
 
-const createChat = async (chat: NewChat): Promise<ChatResponse> => {
-  const response = await axios.post('/api/create_chat', {
-    chat,
-  });
+const createChat = async (
+  chat: NewChat,
+  token: string,
+): Promise<ChatResponse> => {
+  const response = await axios.post(
+    '/api/create_chat',
+    {
+      chat,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   return response.data;
 };
 

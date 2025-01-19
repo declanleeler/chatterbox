@@ -1,5 +1,5 @@
 import time
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
 from src.services.gemini_api import generate
 from src.services.messages_management_service import (
@@ -9,6 +9,7 @@ from src.services.messages_management_service import (
 from src.services.chat_management_service import get_user_chats, save_chat
 
 from .models.models import (
+    ChatRequest,
     MessageRequest,
     ChatsRequest,
     Message,
@@ -21,6 +22,7 @@ from .services.oauth_service import (
     exchange_code_for_token,
     get_user_data,
     mark_code_as_used,
+    verify_github_token,
 )
 
 router = APIRouter()
@@ -49,15 +51,29 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
     return {"user": filtered_user, "token": access_token, "tokenType": token_type}
 
 
+# @router.post("/chats")
+# async def get_chats(request: ChatsRequest):
+#     print(request)
+#     user_id = request.userId
+#     chats = await get_user_chats(user_id)
+#     return {"chats": chats}
+
+
 @router.post("/chats")
-async def get_chats(request: ChatsRequest):
+async def get_chats(
+    request: ChatsRequest, is_valid_token: bool = Depends(verify_github_token)
+):
+    if not is_valid_token:
+        raise HTTPException(status_code=401, detail="Unauthorized")
     user_id = request.userId
     chats = await get_user_chats(user_id)
     return {"chats": chats}
 
 
 @router.post("/create_chat")
-async def create_chat(request: CreateChatRequest):
+async def create_chat(
+    request: CreateChatRequest, is_valid_token: bool = Depends(verify_github_token)
+):
     chat = request.chat
     chat_id = await save_chat(chat)
     if not chat_id:
@@ -66,7 +82,9 @@ async def create_chat(request: CreateChatRequest):
 
 
 @router.post("/message")
-async def handle_message(request: MessageRequest):
+async def handle_message(
+    request: MessageRequest, is_valid_token: bool = Depends(verify_github_token)
+):
     user_message = request.message
     history = request.history
     # Save user message
@@ -102,14 +120,17 @@ async def handle_message(request: MessageRequest):
     return {"message": llm_message}
 
 
-@router.get("/chat/{chat_id}")
-async def get_chat_messages(chat_id: str):
+@router.post("/chat")
+async def get_chat_messages(
+    request: ChatRequest, is_valid_token: bool = Depends(verify_github_token)
+):
     """
     Retrieve a chat by its ID.
 
     :param chat_id: The ID of the chat to retrieve.
     :return: The Chat instance if found, else 404.
     """
+    chat_id = request.chatId
     messages = await get_messages_by_chatId(chat_id)
     if messages is None:
         raise HTTPException(status_code=404, detail="Chat not found")

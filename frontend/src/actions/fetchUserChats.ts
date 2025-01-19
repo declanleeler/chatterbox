@@ -7,10 +7,19 @@ interface FetchUserChatResponse {
 
 const fetchUserChats = async (
   userId: number,
+  token: string,
 ): Promise<FetchUserChatResponse> => {
-  const response = await axios.post('/api/chats', {
-    userId,
-  });
+  const response = await axios.post(
+    '/api/chats',
+    {
+      userId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   return response.data;
 };
 

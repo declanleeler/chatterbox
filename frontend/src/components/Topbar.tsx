@@ -11,7 +11,7 @@ import { useAuth } from '../contexts/AuthProvider';
 import ToggleLightModeButton from './ToggleLightModeButton';
 
 const TopBar: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, clearAuth } = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -26,7 +26,7 @@ const TopBar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    logout();
+    clearAuth();
     navigate('/');
   };
 
