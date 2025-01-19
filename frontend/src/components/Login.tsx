@@ -4,13 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Login: FC = () => {
   const navigate = useNavigate();
-  console.log('hello');
-  console.log(import.meta.env);
-  console.log(
-    'VITE_RENDER_ENV_DEBUG at runtime:',
-    process.env.VITE_RENDER_ENV_DEBUG,
-  );
-  // console.log(import.meta.env.VITE_GITHUB_CLIENT_ID);
   const handleLoginClick = () => {
     navigate('/auth-redirect');
   };

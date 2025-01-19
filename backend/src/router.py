@@ -1,4 +1,3 @@
-import os
 import time
 from fastapi import APIRouter, Depends, HTTPException
 
@@ -31,8 +30,7 @@ router = APIRouter()
 
 @router.get("/")
 async def root():
-    print(os.getenv("MONGO_USERNAME"))
-    return {"message": os.getenv("MONGO_USERNAME")}
+    return {"message": "Hello, World!"}
 
 
 @router.post("/oauth/redirect")

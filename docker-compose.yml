@@ -23,7 +23,7 @@ services:
       dockerfile: ./Dockerfile
     container_name: frontend
     environment:
-      - PROXY_TARGET=backend
+      - VITE_PROXY_TARGET=backend
     ports:
       - "5173:5173"
     env_file:
