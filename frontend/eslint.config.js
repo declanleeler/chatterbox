@@ -1,4 +1,3 @@
-import prettier from 'eslint-plugin-prettier';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import path from 'node:path';
@@ -8,6 +7,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended,
@@ -18,21 +18,25 @@ export default [
   {
     ignores: ['**/node_modules/*', '**/.next/*'],
   },
-  ...compat.extends('next/core-web-vitals', 'prettier'),
+  ...compat.extends(
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended', // Prettier plugin is handled here
+  ),
   {
     plugins: {
-      prettier,
       '@typescript-eslint': typescriptEslint,
     },
 
     languageOptions: {
       parser: tsParser,
-      ecmaVersion: 5,
+      ecmaVersion: 2021,
       sourceType: 'module',
 
       parserOptions: {
-        project: './jsconfig.json',
+        project: path.resolve(__dirname, './tsconfig.json'), // Ensure the correct path
         createDefaultProgram: true,
+        tsconfigRootDir: __dirname,
       },
     },
 
@@ -41,7 +45,6 @@ export default [
         node: {
           moduleDirectory: ['node_modules', 'src/'],
         },
-
         typescript: {
           alwaysTryTypes: true,
         },
@@ -49,37 +52,12 @@ export default [
     },
 
     rules: {
+      // React-specific rules
       'react/jsx-filename-extension': 'off',
-      'no-param-reassign': 'off',
       'react/prop-types': 'off',
-      'react/require-default-props': 'off',
-      'react/no-array-index-key': 'off',
       'react/react-in-jsx-scope': 'off',
-      'react/jsx-props-no-spreading': 'off',
-      'import/order': 'off',
-      'no-console': 'off',
-      'no-shadow': 'off',
-      '@typescript-eslint/naming-convention': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      'import/no-cycle': 'off',
-      'prefer-destructuring': 'off',
-      'import/no-extraneous-dependencies': 'off',
-      'react/display-name': 'off',
 
-      'import/no-unresolved': [
-        'off',
-        {
-          caseSensitive: false,
-        },
-      ],
-
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*'],
-        },
-      ],
-
+      // TypeScript rules
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -87,7 +65,9 @@ export default [
           args: 'none',
         },
       ],
+      '@typescript-eslint/no-explicit-any': 'warn',
 
+      // Prettier rules
       'prettier/prettier': [
         'warn',
         {

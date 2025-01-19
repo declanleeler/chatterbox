@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { createTheme, ThemeProvider, PaletteMode } from '@mui/material';
+import { ThemeProvider, PaletteMode } from '@mui/material';
 import { getTheme } from '../styles/theme';
 
 interface CustomThemeProviderProps {
