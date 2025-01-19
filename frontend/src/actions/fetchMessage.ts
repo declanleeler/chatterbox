@@ -5,9 +5,18 @@ interface MessageResponse {
   message: Message;
 }
 
-const fetchMessage = async (message: Message): Promise<MessageResponse> => {
+interface FetchMessageProps {
+  message: Message;
+  history?: Message[];
+}
+
+const fetchMessage = async ({
+  message,
+  history,
+}: FetchMessageProps): Promise<MessageResponse> => {
   const response = await axios.post('/api/message', {
     message,
+    history,
   });
   return response.data;
 };

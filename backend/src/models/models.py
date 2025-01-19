@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from bson import ObjectId
-from typing import Any
+from typing import Any, List, Optional
 
 
 # Helper function to convert ObjectId to string
@@ -45,6 +45,7 @@ class OAuthCodeRequest(BaseModel):
 
 class MessageRequest(BaseModel):
     message: Message
+    history: Optional[List[Message]] = None
 
 
 class ChatsRequest(BaseModel):

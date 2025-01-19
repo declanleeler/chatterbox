@@ -22,6 +22,10 @@ const MessageInput: FC<MessageInputProps> = ({
 }) => {
   const { user } = useAuth();
   const theme = useTheme();
+  const latestMessageChatId = localStorage.getItem('latestMessageChatId');
+  const shouldSendHistory =
+    latestMessageChatId === null || selectedChat !== latestMessageChatId;
+
   const { mutate, isPending, isError } = useMutation({
     mutationFn: fetchMessage,
     onSuccess: (response) => {
@@ -40,10 +44,24 @@ const MessageInput: FC<MessageInputProps> = ({
         messageText: input,
         createdOn: DateTime.now().toMillis(),
       };
+      setMessages((prevMessages) => {
+        // Send the message first
+        const updatedMessages = [...prevMessages, userMessage];
 
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
+        // Mutate with the new message and optional history
+        mutate({
+          message: userMessage,
+          history: shouldSendHistory ? updatedMessages.slice(-10) : undefined,
+        });
+
+        return updatedMessages; // Update state with the new message
+      });
+
+      if (shouldSendHistory) {
+        localStorage.setItem('latestMessageChatId', selectedChat);
+      }
+
       setInput(null);
-      mutate(userMessage);
     }
   };
 

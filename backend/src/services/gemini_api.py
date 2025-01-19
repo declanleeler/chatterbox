@@ -1,6 +1,10 @@
 import os
+from typing import List, Optional
 import google.generativeai as genai
 from vertexai.preview import tokenization
+from ..models.models import (
+    Message,
+)
 
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
@@ -25,12 +29,30 @@ def validate_token_count(prompt: str):
     return True
 
 
-def generate(prompt: str):
+def transform_history_for_gemini(history):
+    """Transform the conversation history into the format expected by Google Gemini API."""
+    transformed_history = []
+    for message in history:
+        transformed_message = {
+            "role": "model" if message.userId == 10101010 else "user",
+            "parts": [{"text": message.messageText}],
+        }
+        transformed_history.append(transformed_message)
+    return transformed_history
+
+
+def generate(message: str, history: Optional[List[Message]] = None):
+    if history:
+        prompt = transform_history_for_gemini(history)
+        print(f"history: {prompt}")
+    else:
+        prompt = message
+        print(f"message: {prompt}")
     try:
         validate_token_count(prompt)
         model = genai.GenerativeModel(model_name=MODEL_NAME)
         response = model.generate_content(prompt)
-
+        # return "hoofd"
         return response.text
 
     except ValueError as e:
