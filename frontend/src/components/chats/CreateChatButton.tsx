@@ -1,64 +1,111 @@
-import { IconButton, Box, Typography } from '@mui/material';
+import {
+  IconButton,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Tooltip,
+} from '@mui/material';
 import AddCommentIcon from '@mui/icons-material/AddComment';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useAuth } from '../../contexts/AuthProvider';
 import { NewChat } from '../../interfaces/Chat';
 import { DateTime } from 'luxon';
 import createChat from '../../actions/createChat';
 import { useQueryClient } from '@tanstack/react-query';
 
-const CreateChatButton: FC = () => {
+interface CreateChatButtonProps {
+  setSelectedChat: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+  const handleOpenDialogue = () => {
+    setOpen(true);
+  };
 
-  const handleGenerateChat = async (): Promise<void> => {
-    const now = DateTime.now();
-    const timestampInMillis = now.toMillis();
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
+    event.preventDefault();
 
-    const formattedTimestamp = now.toFormat('dd/MM/yy HH:mm:ss');
+    if (!user) {
+      return;
+    }
+    const formData = new FormData(event.currentTarget);
+    const chatName = formData.get('chatName') as string;
+
+    if (!chatName.trim()) return;
 
     const newChat: NewChat = {
-      userId: user!.id,
-      name: `Chat - ${formattedTimestamp}`,
-      createdOn: timestampInMillis as EpochTimeStamp,
+      userId: user.id,
+      name: chatName,
+      createdOn: DateTime.now().toMillis() as EpochTimeStamp,
     };
 
     try {
       const response = await createChat(newChat);
-      console.log('Chat successfully created:', response.chat);
       queryClient.invalidateQueries({ queryKey: ['userChats'] });
+      console.log(response);
+      handleCloseDialog();
+      setSelectedChat(response.chatId);
     } catch (error) {
       console.error('Failed to create chat:', error);
     }
   };
 
   return (
-    <Box
-      id="history-panel-top-bar"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        minHeight: '48px',
-        p: '8px',
-        pr: '16px',
-        justifyContent: 'space-between',
-        backgroundColor: 'transparent',
-      }}
-    >
-      <Typography variant="h6" sx={{ ml: 2 }}>
-        CHATTERBOX
-      </Typography>
-      <IconButton
-        size="large"
-        edge="end"
-        aria-label="account of current user"
-        aria-haspopup="true"
-        color="inherit"
-        onClick={handleGenerateChat}
+    <>
+      <Tooltip title="Create New Chat">
+        <IconButton
+          size="large"
+          edge="end"
+          aria-haspopup="true"
+          color="inherit"
+          onClick={handleOpenDialogue}
+        >
+          <AddCommentIcon />
+        </IconButton>
+      </Tooltip>
+
+      <Dialog
+        open={open}
+        onClose={handleCloseDialog}
+        PaperProps={{
+          component: 'form',
+          sx: { width: '500px', maxWidth: '90%' }, // Set custom width here
+        }}
       >
-        <AddCommentIcon />
-      </IconButton>
-    </Box>
+        <DialogTitle>Create New Chat</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="chat-name"
+              name="chatName"
+              placeholder="Enter chat name here."
+              slotProps={{ htmlInput: { maxLength: 50 } }}
+              type="string"
+              fullWidth
+              variant="standard"
+            />
+            <DialogActions>
+              <Button onClick={handleCloseDialog}>Cancel</Button>
+              <Button type="submit">Create</Button>
+            </DialogActions>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

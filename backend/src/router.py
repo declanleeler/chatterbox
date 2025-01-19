@@ -62,7 +62,7 @@ async def create_chat(request: CreateChatRequest):
     chat_id = await save_chat(chat)
     if not chat_id:
         raise HTTPException(status_code=500, detail="Failed to save chat")
-    return {"message": "Chat created successfully", "chatId": chat_id}
+    return {"chatId": chat_id}
 
 
 @router.post("/message")
@@ -73,9 +73,12 @@ async def handle_message(request: MessageRequest):
     await save_message(user_message)
     try:
         # Get the response from the model
-        llm_response_text = generate(user_message.messageText)
-        # llm_response_text = "im good"
-        # time.sleep(2)
+        # llm_response_text = generate(user_message.messageText)
+        llm_response_text = "im good"
+        time.sleep(2)
+        # raise HTTPException(
+        #     status_code=500, detail="Failed to generate response from model"
+        # )
         if llm_response_text is None:
             raise HTTPException(
                 status_code=500, detail="Failed to generate response from model"

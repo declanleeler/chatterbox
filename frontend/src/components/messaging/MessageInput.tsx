@@ -1,4 +1,4 @@
-import { Box, Button, TextField, useTheme } from '@mui/material';
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { DateTime } from 'luxon';
 import { FC } from 'react';
@@ -22,7 +22,7 @@ const MessageInput: FC<MessageInputProps> = ({
 }) => {
   const { user } = useAuth();
   const theme = useTheme();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isError } = useMutation({
     mutationFn: fetchMessage,
     onSuccess: (response) => {
       setMessages((prevMessages) => [...prevMessages, response.message]);
@@ -60,6 +60,11 @@ const MessageInput: FC<MessageInputProps> = ({
           wrapperStyle={{}}
           wrapperClass=""
         />
+      )}
+      {isError && (
+        <Typography color={theme.palette.error.main}>
+          There was an error, please try again.
+        </Typography>
       )}
       <Box display="flex" alignItems="center" gap={2}>
         <TextField
