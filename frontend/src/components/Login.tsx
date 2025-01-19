@@ -7,8 +7,8 @@ const Login: FC = () => {
   console.log('hello');
   console.log(import.meta.env);
   console.log(
-    'RENDER_ENV_DEBUG at runtime:',
-    process.env.REACT_APP_RENDER_ENV_DEBUG,
+    'VITE_RENDER_ENV_DEBUG at runtime:',
+    process.env.VITE_RENDER_ENV_DEBUG,
   );
   // console.log(import.meta.env.VITE_GITHUB_CLIENT_ID);
   const handleLoginClick = () => {
