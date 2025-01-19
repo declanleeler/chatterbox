@@ -1,5 +1,5 @@
 import { Grid2, Typography } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 import { Message } from '../../interfaces/Message';
@@ -20,6 +20,14 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
       return fetchChatMessages(selectedChat!);
     },
   });
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Scroll to the bottom whenever messages change
+    if (gridRef.current) {
+      gridRef.current.scrollTop = gridRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (data) {
@@ -56,6 +64,7 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
     >
       <Grid2
         id="chat-messages-grid"
+        ref={gridRef}
         sx={{
           width: '100%',
           height: '50%', //set to small amount to cater to small screens
