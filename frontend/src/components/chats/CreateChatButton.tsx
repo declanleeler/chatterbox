@@ -35,7 +35,7 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
     event: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     event.preventDefault();
-
+    console.log('hello');
     if (!user) {
       return;
     }
@@ -52,10 +52,10 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
 
     try {
       const response = await createChat(newChat);
-      queryClient.invalidateQueries({ queryKey: ['userChats'] });
       console.log(response);
       handleCloseDialog();
       setSelectedChat(response.chatId);
+      queryClient.invalidateQueries({ queryKey: ['userChats'] });
     } catch (error) {
       console.error('Failed to create chat:', error);
     }
@@ -79,7 +79,6 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
         open={open}
         onClose={handleCloseDialog}
         PaperProps={{
-          component: 'form',
           sx: { width: '500px', maxWidth: '90%' }, // Set custom width here
         }}
       >
