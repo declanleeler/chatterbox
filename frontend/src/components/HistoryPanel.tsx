@@ -90,7 +90,7 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
             overflowY: 'auto',
           }}
         >
-          {chatData.chats.reverse().map((chat) => (
+          {chatData.chats.map((chat) => (
             <ChatListItem
               key={chat._id}
               chat={chat}

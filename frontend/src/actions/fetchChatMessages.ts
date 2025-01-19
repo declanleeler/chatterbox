@@ -12,6 +12,7 @@ const fetchChatMessages = async (
   chatId: string,
   token: string,
 ): Promise<MessageResponse> => {
+  console.log(chatId);
   const response = await axios.post(
     `${backendBaseUrl}/chat`,
     { chatId },
