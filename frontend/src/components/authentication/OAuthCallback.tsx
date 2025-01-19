@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import fetchGithubOauth from '../../actions/fetchGithubOauth';
 import { useAuth } from '../../contexts/AuthProvider';
-import axios from 'axios';
 
 const OAuthCallback: FC = () => {
   const navigate = useNavigate();
