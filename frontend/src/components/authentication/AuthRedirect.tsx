@@ -6,7 +6,8 @@ const AuthRedirect: FC = () => {
     const state = Math.random().toString(36).substring(2);
     localStorage.setItem('state', state);
 
-    const redirectUri = 'http://localhost:5173/oauth/callback';
+    const redirectUri =
+      'https://chatterbox-frontend-7oorvl5wd-declanleelers-projects.vercel.app/oauth/callback';
     const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&response_type=code&scope=repo&redirect_uri=${redirectUri}&state=${state}`;
 
