@@ -57,6 +57,7 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
       queryClient.invalidateQueries({ queryKey: ['userChats'] });
     } catch (error) {
       console.error('Failed to create chat:', error);
+      handleCloseDialog();
     }
   };
 
