@@ -6,6 +6,10 @@ const Login: FC = () => {
   const navigate = useNavigate();
   console.log('hello');
   console.log(import.meta.env);
+  console.log(
+    'RENDER_ENV_DEBUG at runtime:',
+    process.env.REACT_APP_RENDER_ENV_DEBUG,
+  );
   // console.log(import.meta.env.VITE_GITHUB_CLIENT_ID);
   const handleLoginClick = () => {
     navigate('/auth-redirect');
