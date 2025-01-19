@@ -24,7 +24,7 @@ Live demo: https://chatterbox-frontend-ochre.vercel.app
 5. CD into respective folders frontend and backend, install dependencies, and run 
     - `cd frontend`, `npm install`, `npm run dev`
     - `cd backend`, `pip install -r requirements.txt`, `python main.py`
-6. [Optional] Run using docker compose
+6. [Optional] Run using docker compose from root level
     - `docker-compose up --build -d`
   
   
