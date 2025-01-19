@@ -6,6 +6,7 @@ from .database import mongo
 app = FastAPI()
 origins = [
     "https://chatterbox-frontend-ochre.vercel.app",  # Production frontend
+    "http://frontend:5173",
     "http://localhost:5173",  # Local frontend (during development)
 ]
 app.add_middleware(
