@@ -42,25 +42,7 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
       </Paper>
     );
   }
-
-  if (
-    _.isNil(chatData) ||
-    _.isNil(chatData.chats) ||
-    chatData.chats.length === 0
-  ) {
-    return (
-      <Paper
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Typography>No chats available</Typography>
-      </Paper>
-    );
-  }
+  console.log(chatData);
 
   return (
     <Paper
@@ -89,22 +71,36 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
         </Typography>
         <CreateChatButton setSelectedChat={setSelectedChat} />
       </Box>
-
-      <div
-        style={{
-          flexGrow: 1,
-          overflowY: 'auto',
-        }}
-      >
-        {chatData.chats.map((chat) => (
-          <ChatListItem
-            key={chat._id}
-            chat={chat}
-            setSelectedChat={setSelectedChat}
-            isHighlighted={chat._id === selectedChat ? true : false}
-          />
-        ))}
-      </div>
+      {_.isNil(chatData) ||
+      _.isNil(chatData.chats) ||
+      chatData.chats.length === 0 ? (
+        <Paper
+          sx={{
+            minHeight: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography>No chats available</Typography>
+        </Paper>
+      ) : (
+        <div
+          style={{
+            flexGrow: 1,
+            overflowY: 'auto',
+          }}
+        >
+          {chatData.chats.map((chat) => (
+            <ChatListItem
+              key={chat._id}
+              chat={chat}
+              setSelectedChat={setSelectedChat}
+              isHighlighted={chat._id === selectedChat ? true : false}
+            />
+          ))}
+        </div>
+      )}
     </Paper>
   );
 };
