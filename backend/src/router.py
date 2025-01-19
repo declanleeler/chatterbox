@@ -71,15 +71,24 @@ async def handle_message(request: MessageRequest):
 
     # Save user message
     await save_message(user_message)
+    try:
+        # Get the response from the model
+        llm_response_text = generate(user_message.messageText)
+        if llm_response_text is None:
+            raise HTTPException(
+                status_code=500, detail="Failed to generate response from model"
+            )
 
-    llm_response_text = generate(user_message.messageText)
+        llm_message = Message(
+            chatId=request.message.chatId,
+            userId=10101010,  # HARDCODE ROBOT ID
+            messageText=llm_response_text,
+            createdOn=int(time.time() * 1000),
+        )
 
-    llm_message = Message(
-        chatId=request.message.chatId,
-        userId=10101010,
-        messageText=llm_response_text,
-        createdOn=int(time.time() * 1000),
-    )
+    except Exception as e:
+        print(f"Error during message processing: {e}")
+        raise HTTPException(status_code=500, detail="Failed to process message")
 
     # Save LLM message
     await save_message(llm_message)

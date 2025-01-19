@@ -23,6 +23,7 @@ const MessageInput: FC<MessageInputProps> = ({
   const { mutate, isPending } = useMutation({
     mutationFn: fetchMessage,
     onSuccess: (response) => {
+      console.log(response);
       setMessages((prevMessages) => [...prevMessages, response.message]);
     },
     onError: (error) => {
