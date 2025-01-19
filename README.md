@@ -1,5 +1,6 @@
 # chatterbox
 This is a chatbot application built with React (TypeScript), FastAPI (Python), and MongoDB. The app provides a conversational interface using an LLM API (Gemini) and includes authentication through GitHub's OAuth 2.0.
+
 Live demo: https://chatterbox-frontend-ochre.vercel.app
 
 ## Key Features
