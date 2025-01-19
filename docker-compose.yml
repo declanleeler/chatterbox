@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    container_name: backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    networks:
+      - app-network
+    volumes:
+      - ./backend:/app
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    container_name: frontend
+    environment:
+      - PROXY_TARGET=backend
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+# Network configuration
+networks:
+  app-network:
+    driver: bridge
