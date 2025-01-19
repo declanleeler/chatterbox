@@ -5,12 +5,15 @@ interface MessageResponse {
   messages: Message[];
 }
 
+const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:5173/api';
+
 const fetchChatMessages = async (
   chatId: string,
   token: string,
 ): Promise<MessageResponse> => {
   const response = await axios.post(
-    `/api/chat`,
+    `${backendBaseUrl}/chat`,
     { chatId },
     {
       headers: {

@@ -11,13 +11,16 @@ interface FetchMessageProps {
   token: string;
 }
 
+const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:5173/api';
+
 const fetchMessage = async ({
   message,
   history,
   token,
 }: FetchMessageProps): Promise<MessageResponse> => {
   const response = await axios.post(
-    '/api/message',
+    `${backendBaseUrl}/message`,
     {
       message,
       history,

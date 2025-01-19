@@ -48,7 +48,6 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
   }
 
   if (!chatData || chatData.chats.length === 0) {
-    console.log(chatData);
     return (
       <Paper
         sx={{

@@ -5,12 +5,15 @@ interface FetchUserChatResponse {
   chats: Chat[];
 }
 
+const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:5173/api';
+
 const fetchUserChats = async (
   userId: number,
   token: string,
 ): Promise<FetchUserChatResponse> => {
   const response = await axios.post(
-    '/api/chats',
+    `${backendBaseUrl}/chats`,
     {
       userId,
     },

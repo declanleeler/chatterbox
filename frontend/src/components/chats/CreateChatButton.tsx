@@ -52,7 +52,6 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
 
     try {
       const response = await createChat(newChat, token);
-      console.log(response);
       handleCloseDialog();
       setSelectedChat(response.chatId);
       queryClient.invalidateQueries({ queryKey: ['userChats'] });

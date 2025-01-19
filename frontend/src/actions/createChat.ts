@@ -5,12 +5,15 @@ interface ChatResponse {
   chatId: string;
 }
 
+const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:5173/api';
+
 const createChat = async (
   chat: NewChat,
   token: string,
 ): Promise<ChatResponse> => {
   const response = await axios.post(
-    '/api/create_chat',
+    `${backendBaseUrl}/create_chat`,
     {
       chat,
     },

@@ -12,7 +12,6 @@ const OAuthCallback: FC = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get('code');
       const state = urlParams.get('state');
-      console.log(state);
       const storedState = localStorage.getItem('state');
       if (storedState !== state) {
         console.error('CSRF token mismatch');
@@ -32,7 +31,6 @@ const OAuthCallback: FC = () => {
     };
 
     if (contextToken === null) {
-      console.log('no token');
       handleOauth();
     } else {
       navigate('/home');
