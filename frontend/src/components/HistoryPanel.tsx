@@ -42,7 +42,6 @@ const HistoryPanel: FC<HistoryPanelProps> = ({
       </Paper>
     );
   }
-  console.log(chatData);
 
   return (
     <Paper
