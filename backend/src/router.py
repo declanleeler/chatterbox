@@ -75,9 +75,9 @@ async def handle_message(request: MessageRequest):
     await save_message(user_message)
     try:
         # Get the response from the model
-        llm_response_text = generate(user_message.messageText, history)
-        # llm_response_text = "im good"
-        # time.sleep(2)
+        # llm_response_text = generate(user_message.messageText, history)
+        llm_response_text = "im good"
+        time.sleep(2)
         # raise HTTPException(
         #     status_code=500, detail="Failed to generate response from model"
         # )

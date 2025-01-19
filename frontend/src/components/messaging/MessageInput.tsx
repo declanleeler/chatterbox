@@ -86,8 +86,8 @@ const MessageInput: FC<MessageInputProps> = ({
       )}
       <Box display="flex" alignItems="center" gap={2}>
         <TextField
-          id="filled-multiline-flexible"
-          label="Your Message"
+          id="user-input"
+          placeholder="Your Message"
           multiline
           maxRows={4}
           variant="filled"
@@ -95,9 +95,22 @@ const MessageInput: FC<MessageInputProps> = ({
           onChange={(e) => setInput(e.target.value)}
           fullWidth
           sx={{ flexGrow: 1 }}
+          onKeyDown={(e) => {
+            // Prevent default behavior for Enter key when Shift is not pressed
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault(); // Prevents a new line from being added
+              if (!isPending) {
+                // Check if there's no pending request
+                handleSendMessage(); // Trigger the send message manually
+              }
+            }
+          }}
         />
         <Button
-          onClick={handleSendMessage}
+          onClick={(e) => {
+            e.preventDefault(); // Prevent the default button behavior
+            handleSendMessage(); // Trigger send message on button click
+          }}
           variant="contained"
           sx={{ height: '100%' }}
           disabled={isPending}
