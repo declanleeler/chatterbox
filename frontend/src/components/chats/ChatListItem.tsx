@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { Chat } from '../../interfaces/Chat';
 import { ListItemButton, ListItemText, useTheme } from '@mui/material';
 import { DateTime } from 'luxon';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface ChatButtonProps {
   chat: Chat;
@@ -15,7 +14,6 @@ const ChatListItem: FC<ChatButtonProps> = ({
   isHighlighted,
 }) => {
   const theme = useTheme();
-  const queryClient = useQueryClient();
 
   return (
     <ListItemButton
@@ -34,7 +32,6 @@ const ChatListItem: FC<ChatButtonProps> = ({
       }}
       onClick={() => {
         setSelectedChat(chat._id);
-        queryClient.invalidateQueries({ queryKey: ['chatMessages'] });
       }}
     >
       <ListItemText

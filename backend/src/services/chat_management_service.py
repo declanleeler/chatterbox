@@ -31,7 +31,12 @@ async def get_user_chats(user_id: str) -> Optional[Chat]:
     :return: Chat instance or None if not found.
     """
     try:
-        chat_docs = await mongo.db[CHAT_COLLECTION].find({"userId": user_id}).to_list()
+        chat_docs = (
+            await mongo.db[CHAT_COLLECTION]
+            .find({"userId": user_id})
+            .sort("createdOn", -1)
+            .to_list()
+        )
         for chat in chat_docs:
             chat["_id"] = str(chat["_id"])  # Convert ObjectId to string
         return chat_docs

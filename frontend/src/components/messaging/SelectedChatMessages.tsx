@@ -6,6 +6,7 @@ import { Message } from '../../interfaces/Message';
 import { useQuery } from '@tanstack/react-query';
 import fetchChatMessages from '../../actions/fetchChatMessages';
 import { useAuth } from '../../contexts/AuthProvider';
+import _ from 'lodash';
 
 interface MessagingProps {
   selectedChat: string;
@@ -19,10 +20,10 @@ const SelectedChatMessages: FC<MessagingProps> = ({ selectedChat }) => {
   const { data, isLoading } = useQuery({
     queryKey: ['chatMessages', selectedChat, token],
     queryFn: async () => {
-      if (!token || selectedChat) {
+      if (_.isNil(token)) {
         throw new Error('Token is required but not provided.');
       }
-      if (!selectedChat) {
+      if (_.isNil(selectedChat)) {
         throw new Error('selectedChat is required but not provided.');
       }
       return fetchChatMessages(selectedChat, token);
