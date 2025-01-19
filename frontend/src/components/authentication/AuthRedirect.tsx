@@ -8,9 +8,6 @@ const AuthRedirect: FC = () => {
 
     const redirectUri = 'http://localhost:5173/oauth/callback';
     const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-    console.log(import.meta.env);
-    console.log(import.meta.env.VITE_GITHUB_CLIENT_ID);
-    console.log(clientId);
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&response_type=code&scope=repo&redirect_uri=${redirectUri}&state=${state}`;
 
     window.location.href = githubAuthUrl;
