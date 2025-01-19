@@ -69,15 +69,14 @@ async def create_chat(request: CreateChatRequest):
 async def handle_message(request: MessageRequest):
     user_message = request.message
     history = request.history
-    print(f"/messages user_message{user_message}")
-    print(f"/messages history: {history}")
     # Save user message
     await save_message(user_message)
     try:
         # Get the response from the model
-        # llm_response_text = generate(user_message.messageText, history)
-        llm_response_text = "im good"
-        time.sleep(2)
+        llm_response_text = generate(user_message.messageText, history)
+        # TODO remove tests
+        # llm_response_text = "im good"
+        # time.sleep(2)
         # raise HTTPException(
         #     status_code=500, detail="Failed to generate response from model"
         # )
