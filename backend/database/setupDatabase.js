@@ -1,33 +1,5 @@
 // Run using mongosh: mongosh <path_to_repo>/backend/scripts/setup_mongodb.js
 
-// Create User Collection with schema validation
-db.createCollection("users", {
-  validator: {
-    $jsonSchema: {
-      bsonType: "object",
-      required: ["login", "userId"],
-      properties: {
-        userId: {
-          bsonType: "string",
-          description: "must be a string and is required",
-        },
-        login: {
-          bsonType: "string",
-          description: "optional string for user's display name",
-        },
-        createdOn: {
-          bsonType: "date",
-          description: "timestamp when the document was created",
-        },
-      },
-    },
-  },
-});
-
-// Create indices for User Collection
-db.users.createIndex({ userId: 1 });
-db.users.createIndex({ chatId: 1 });
-
 // Create Chats Collection with schema validation
 db.createCollection("chats", {
   validator: {
