@@ -1,4 +1,10 @@
-import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { DateTime } from 'luxon';
 import { FC } from 'react';
@@ -6,6 +12,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import fetchMessage from '../../actions/fetchMessage';
 import { useAuth } from '../../contexts/AuthProvider';
 import { Message } from '../../interfaces/Message';
+import SendIcon from '@mui/icons-material/Send';
 
 interface MessageInputProps {
   selectedChat: string;
@@ -95,28 +102,22 @@ const MessageInput: FC<MessageInputProps> = ({
           onChange={(e) => setInput(e.target.value)}
           fullWidth
           sx={{ flexGrow: 1 }}
-          onKeyDown={(e) => {
-            // Prevent default behavior for Enter key when Shift is not pressed
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault(); // Prevents a new line from being added
-              if (!isPending) {
-                // Check if there's no pending request
-                handleSendMessage(); // Trigger the send message manually
-              }
-            }
-          }}
         />
-        <Button
-          onClick={(e) => {
-            e.preventDefault(); // Prevent the default button behavior
-            handleSendMessage(); // Trigger send message on button click
-          }}
-          variant="contained"
-          sx={{ height: '100%' }}
+        <IconButton
+          onClick={handleSendMessage}
+          color="primary" // Optional: You can set color for the icon button
           disabled={isPending}
+          sx={{
+            borderRadius: '50%', // Makes the button round
+            padding: '10px', // Adjust the padding to make it bigger and circular
+            backgroundColor: (theme) => theme.palette.divider, // Sets background color
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.primary.dark, // Darker background on hover
+            },
+          }}
         >
-          Send
-        </Button>
+          <SendIcon />
+        </IconButton>
       </Box>
     </Box>
   );

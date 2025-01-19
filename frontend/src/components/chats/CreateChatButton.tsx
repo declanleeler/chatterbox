@@ -89,6 +89,7 @@ const CreateChatButton: FC<CreateChatButtonProps> = ({ setSelectedChat }) => {
               required
               margin="dense"
               id="chat-name"
+              name="chatName"
               placeholder="Enter chat name here. (Max 50 chars)"
               slotProps={{ htmlInput: { maxLength: 50 } }}
               type="string"
