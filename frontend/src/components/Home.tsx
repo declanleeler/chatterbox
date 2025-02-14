@@ -26,7 +26,6 @@ const Home: FC = () => {
     >
       <Grid2
         id="left-panel"
-        className="scrollable"
         size={3}
         sx={{
           display: 'flex',
@@ -43,7 +42,6 @@ const Home: FC = () => {
       </Grid2>
       <Grid2
         id="right-panel"
-        className="scrollable"
         size={9}
         flexDirection={'column'}
         sx={{

@@ -51,14 +51,6 @@ async def handle_oauth_redirect(request: OAuthCodeRequest):
     return {"user": filtered_user, "token": access_token, "tokenType": token_type}
 
 
-# @router.post("/chats")
-# async def get_chats(request: ChatsRequest):
-#     print(request)
-#     user_id = request.userId
-#     chats = await get_user_chats(user_id)
-#     return {"chats": chats}
-
-
 @router.post("/chats")
 async def get_chats(
     request: ChatsRequest, is_valid_token: bool = Depends(verify_github_token)
