@@ -15,24 +15,24 @@ const Home: FC = () => {
       flexDirection={'row'}
       sx={{
         backgroundColor: theme.palette.background.default,
+        height: '100dvh',
+        width: '100vw',
+        margin: 0,
+        padding: 0,
+        flexWrap: 'nowrap',
+        minWidth: 0,
       }}
     >
       <Grid2
         id="left-panel"
+        className="scrollable"
         size={3}
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          maxHeight: '100vh',
           flexBasis: 0,
           flexGrow: 1,
-          '&:hover ::-webkit-scrollbar-thumb': {
-            backgroundColor: 'grey',
-          },
-          '& ::-webkit-scrollbar-thumb': {
-            backgroundColor: 'transparent',
-            transition: 'background-color 0.3s ease',
-          },
+          minWidth: 0,
         }}
       >
         <HistoryPanel
@@ -42,18 +42,11 @@ const Home: FC = () => {
       </Grid2>
       <Grid2
         id="right-panel"
+        className="scrollable"
         size={9}
         flexDirection={'column'}
         sx={{
           display: 'flex',
-          maxHeight: '100vh',
-          '&:hover ::-webkit-scrollbar-thumb': {
-            backgroundColor: 'grey',
-          },
-          '& ::-webkit-scrollbar-thumb': {
-            backgroundColor: 'transparent',
-            transition: 'background-color 0.3s ease',
-          },
         }}
       >
         <TopBar />
