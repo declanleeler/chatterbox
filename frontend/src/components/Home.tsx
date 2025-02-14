@@ -21,6 +21,7 @@ const Home: FC = () => {
         padding: 0,
         flexWrap: 'nowrap',
         minWidth: 0,
+        overflow: 'hidden',
       }}
     >
       <Grid2
